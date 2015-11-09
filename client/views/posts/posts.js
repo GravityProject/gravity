@@ -32,6 +32,10 @@ Template.posts.helpers({
       return Posts.find({}, { sort: [['score', 'desc']] });
     }
     return Posts.find({}, { sort: { createdAt: -1 } });
+  },
+
+  author: function () {
+    return Meteor.users.findOne({ _id: this.authorId }).username;
   }
 });
 
