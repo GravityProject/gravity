@@ -27,3 +27,7 @@ UI.registerHelper('simpleFormat', (text) => {
   text = '<p>' + text + '</p>';
   return new Spacebars.SafeString(text);
 });
+
+UI.registerHelper('formatDate', (date) => {
+  return moment(date).format('LL');
+});

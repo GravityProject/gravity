@@ -21,7 +21,12 @@
         {{#if posts.count}}
           <ol class="posts">
             {{#each posts}}
-              <li>{{simpleFormat body}}</li>
+              <li>
+                {{simpleFormat body}}
+                <hr>
+                <p class="u-pull-right formatted-date">{{formatDate createdAt}}</p>
+                <div class="clear"></div>
+              </li>
             {{/each}}
           </ol>
         {{else}}
