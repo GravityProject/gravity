@@ -1,4 +1,21 @@
 <template name="layout">
   {{> header}}
-  {{> Template.dynamic template=main}}
+  <div class="container">
+    {{# if currentUser}}
+      <div class="row">
+        <div class="four columns">
+          {{> navigation}}
+        </div>
+        <div class="eight columns">
+          {{> Template.dynamic template=main}}
+        </div>
+      </div>
+    {{else}}
+      <div class="row">
+        <div class="four columns offset-by-four">
+          {{> Template.dynamic template=main}}
+        </div>
+      </div>
+    {{/if}}
+  </div>
 </template>

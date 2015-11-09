@@ -1,0 +1,35 @@
+<template name="posts">
+  <div class="row">
+    <div class="twelve columns">
+      <form data-id="insert-post-form" class="insert-post-form">
+        <textarea class="u-full-width insert-post-form" placeholder="Write something..." data-id="body"></textarea>
+        <input type="submit" class="button-primary u-full-width" value="Submit">
+      </form>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="twelve columns">
+      <form data-id="search-posts-form">
+        <input type="text" class="u-full-width" placeholder="Search posts..." data-id="search-query">
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="twelve columns">
+      {{#if Template.subscriptionsReady}}
+        {{#if posts.count}}
+          <ol class="posts">
+            {{#each posts}}
+              <li>{{simpleFormat body}}</li>
+            {{/each}}
+          </ol>
+        {{else}}
+          <div class="alert info">There are no matching posts to display</div>
+        {{/if}}
+      {{else}}
+        <div class="text-center">Loading posts...</div>
+      {{/if}}
+    </div>
+  </div>
+</template>
