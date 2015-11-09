@@ -20,3 +20,9 @@ check
 audit-argument-checks
 skeleton:skeleton
 less
+accounts-base
+accounts-password
+kadira:flow-router
+kadira:blaze-layout
+arillo:flow-router-helpers
+themeteorchef:bert

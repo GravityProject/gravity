@@ -1,0 +1,16 @@
+<template name="header">
+  <header class="main-header">
+    <div class="container">
+      <ul>
+        <li>
+          <a href="/">Gravity</a>
+        </li>
+        {{#if currentUser}}
+          <li class="u-pull-right">
+            <a href="{{pathFor 'signOut'}}"><i class="fa fa-power-off fa-lg"></i></a>
+          </li>
+        {{/if}}
+      </ul>
+    </div>
+  </header>
+</template>
