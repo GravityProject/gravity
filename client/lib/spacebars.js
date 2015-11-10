@@ -31,3 +31,10 @@ UI.registerHelper('simpleFormat', (text) => {
 UI.registerHelper('formatDate', (date) => {
   return moment(date).format('LL');
 });
+
+/*
+ * Full time format
+ */
+UI.registerHelper('fullTimeDate', (date) => {
+  return moment(date).format('HH:mm:ss, LL');
+});
