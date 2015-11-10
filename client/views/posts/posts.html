@@ -25,6 +25,9 @@
                 {{simpleFormat body}}
                 <hr>
                 <p class="u-pull-left author">{{author}}</p>
+                {{#if belongsPostToUser}}
+                  <button class="u-pull-right no-button remove-post" data-id="remove-post"><i class="fa fa-trash"></i></button>
+                {{/if}}
                 <p class="u-pull-right formatted-date">{{formatDate createdAt}}</p>
                 <div class="clear"></div>
               </li>

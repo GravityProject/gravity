@@ -16,6 +16,22 @@ Template.posts.events({
     });
   },
 
+  'click [data-id=remove-post]': function (event, template) {
+    let post = {
+      _id: this._id
+    };
+
+    if (confirm('do you really want to remove this post? This can not be undone!')) {
+      Meteor.call('posts.remove', post, (error, result) => {
+        if (error) {
+          Bert.alert(error.reason, 'danger', 'growl-top-right');
+        } else {
+          Bert.alert('Post successfully removed', 'success', 'growl-top-right');
+        }
+      });
+    }
+  },
+
   'keyup [data-id=search-query]': _.debounce((event, template) => {
     event.preventDefault();
     template.searchQuery.set(template.find('[data-id=search-query]').value);
@@ -36,6 +52,10 @@ Template.posts.helpers({
 
   author: function () {
     return Meteor.users.findOne({ _id: this.authorId }).username;
+  },
+
+  belongsPostToUser: function () {
+    return this.authorId === Meteor.userId();
   }
 });
 
