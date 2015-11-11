@@ -1,5 +1,5 @@
 Template.header.events({
-  'click .user-logout-link': function() {
+  'click [data-id=sign-out]': function() {
     Meteor.logout(function(error){
       if(error){
         alert(error.reason);
@@ -7,5 +7,5 @@ Template.header.events({
         FlowRouter.go('/sign-in')
       }
     });
-  },
+  }
 });
