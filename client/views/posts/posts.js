@@ -32,6 +32,10 @@ Template.posts.events({
     }
   },
 
+  'click [data-id=clear-form]': (event, template) => {
+    template.find('[data-id=body]').value = '';
+  },
+
   'keyup [data-id=search-query]': _.debounce((event, template) => {
     event.preventDefault();
     template.searchQuery.set(template.find('[data-id=search-query]').value);
