@@ -22,6 +22,8 @@ skeleton:skeleton
 less
 accounts-base
 accounts-password
+useraccounts:unstyled
+useraccounts:flow-routing
 kadira:flow-router
 kadira:blaze-layout
 arillo:flow-router-helpers
@@ -29,3 +31,4 @@ themeteorchef:bert
 reactive-var
 momentjs:moment
 reywood:publish-composite
+fortawesome:fontawesome
