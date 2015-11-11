@@ -36,6 +36,10 @@ Template.posts.events({
     template.find('[data-id=body]').value = '';
   },
 
+  'click [data-id=load-more]': (event, template) => {
+    template.limit.set(template.limit.get() + 20);
+  },
+
   'keyup [data-id=search-query]': _.debounce((event, template) => {
     event.preventDefault();
     template.searchQuery.set(template.find('[data-id=search-query]').value);
@@ -65,8 +69,9 @@ Template.posts.helpers({
 
 Template.posts.onCreated(function () {
   this.searchQuery = new ReactiveVar('');
+  this.limit = new ReactiveVar(20);
 
   this.autorun(() => {
-    this.subscribe('posts', this.searchQuery.get());
+    this.subscribe('posts', this.searchQuery.get(), this.limit.get());
   });
 });

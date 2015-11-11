@@ -1,5 +1,6 @@
-Meteor.publishComposite('posts', function (query) {
+Meteor.publishComposite('posts', function (query, limit) {
   check(query, String);
+  check(limit, Number);
 
   if (this.userId) {
     return {
@@ -21,11 +22,12 @@ Meteor.publishComposite('posts', function (query) {
                 score: {
                   $meta: 'textScore'
                 }
-              }
+              },
+              limit: limit
             }
           );
         } else {
-          return Posts.find({}, {sort: {createdAt: -1}});
+          return Posts.find({}, { sort: { createdAt: -1 }, limit: limit });
         }
       },
       children: [
