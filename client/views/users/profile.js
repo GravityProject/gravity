@@ -1,6 +1,10 @@
 Template.profile.helpers({
   user: () => {
     return Meteor.users.findOne({ _id: FlowRouter.getParam('_id') });
+  },
+
+  posts: function () {
+    return Posts.find({}, { sort: { createdAt: -1 } });
   }
 });
 
