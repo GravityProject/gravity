@@ -20,20 +20,9 @@
     <div class="twelve columns">
       {{#if Template.subscriptionsReady}}
         {{#if posts.count}}
-          <ol class="posts">
-            {{#each posts}}
-              <li>
-                {{simpleFormat body}}
-                <hr>
-                <a href="{{pathFor 'profile' _id=author._id}}" class="u-pull-left author">@{{author.username}}</a>
-                {{#if belongsPostToUser}}
-                  <button class="u-pull-right no-button remove-post" data-id="remove-post"><i class="fa fa-trash"></i></button>
-                {{/if}}
-                <p class="u-pull-right formatted-date">{{fullTimeDate createdAt}}</p>
-                <div class="clear"></div>
-              </li>
-            {{/each}}
-          </ol>
+          {{#each posts}}
+            {{> post post=this}}
+          {{/each}}
           <button class="u-full-width" data-id="load-more">Load more</button>
         {{else}}
           <div class="alert info">There are no matching posts to display</div>
