@@ -25,7 +25,7 @@
               <li>
                 {{simpleFormat body}}
                 <hr>
-                <p class="u-pull-left author">{{author}}</p>
+                <a href="{{pathFor 'profile' _id=author._id}}" class="u-pull-left author">@{{author.username}}</a>
                 {{#if belongsPostToUser}}
                   <button class="u-pull-right no-button remove-post" data-id="remove-post"><i class="fa fa-trash"></i></button>
                 {{/if}}

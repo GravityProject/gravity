@@ -59,7 +59,7 @@ Template.posts.helpers({
   },
 
   author: function () {
-    return Meteor.users.findOne({ _id: this.authorId }).username;
+    return Meteor.users.findOne({ _id: this.authorId });
   },
 
   belongsPostToUser: function () {

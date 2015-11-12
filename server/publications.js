@@ -48,3 +48,13 @@ Meteor.publishComposite('posts', function (query, limit) {
     return [];
   }
 });
+
+Meteor.publish('users.profile', function (_id) {
+  check(_id, String);
+
+  if (this.userId) {
+    return Meteor.users.find({ _id: _id });
+  } else {
+    return [];
+  }
+});

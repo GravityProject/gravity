@@ -1,0 +1,15 @@
+<template name="profile">
+  <div class="row">
+    <div class="twelve columns">
+      <div class="profile">
+        {{#if Template.subscriptionsReady}}
+          {{> avatar user=user size='extra-large' shape='circle' class='avatar-center'}}
+          <h1 class="text-center username">@{{user.username}}</h1>
+          <p class="text-center">{{user.biography}}</p>
+        {{else}}
+          <div class="text-center">Loading profile...</div>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</template>
