@@ -11,6 +11,7 @@
             {{#each posts}}
               {{> post post=this}}
             {{/each}}
+            <button class="u-full-width" data-id="load-more">Load more</button>
           {{else}}
             <div class="text-center">The user has not posted anything yet</div>
           {{/if}}

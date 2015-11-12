@@ -49,8 +49,9 @@ Meteor.publishComposite('posts.all', function (query, limit) {
   }
 });
 
-Meteor.publishComposite('users.profile', function (_id) {
+Meteor.publishComposite('users.profile', function (_id, limit) {
   check(_id, String);
+  check(limit, Number);
 
   if (this.userId) {
     return {
@@ -60,7 +61,7 @@ Meteor.publishComposite('users.profile', function (_id) {
       children: [
         {
           find: (user) => {
-            return Posts.find({ authorId: user._id });
+            return Posts.find({ authorId: user._id }, { sort: { createdAt: -1 }, limit: limit });
           }
         }
       ]
