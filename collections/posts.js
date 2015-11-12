@@ -16,6 +16,9 @@ Meteor.methods({
       body: String
     });
 
+    if (!Meteor.user()) {
+      throw new Meteor.Error(401, 'You need to be signed in to continue');
+    }
     if (!post.body) {
       throw new Meteor.Error(422, 'Body should not be blank');
     }
@@ -31,6 +34,9 @@ Meteor.methods({
       _id: String
     });
 
+    if (!Meteor.user()) {
+      throw new Meteor.Error(401, 'You need to be signed in to continue');
+    }
     if (!post._id) {
       throw new Meteor.Error(422, '_id should not be blank');
     }

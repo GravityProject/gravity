@@ -6,6 +6,15 @@
           {{> avatar user=user size='extra-large' shape='circle' class='avatar-center'}}
           <h1 class="text-center username">@{{user.username}}</h1>
           <p class="text-center">{{user.biography}}</p>
+          <hr>
+          {{#if posts.count}}
+            {{#each posts}}
+              {{> post post=this}}
+            {{/each}}
+            <button class="u-full-width" data-id="load-more">Load more</button>
+          {{else}}
+            <div class="text-center">The user has not posted anything yet</div>
+          {{/if}}
         {{else}}
           <div class="text-center">Loading profile...</div>
         {{/if}}
