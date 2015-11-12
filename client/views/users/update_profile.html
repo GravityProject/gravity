@@ -1,0 +1,14 @@
+<template name="updateProfile">
+  <div class="row">
+    <div class="twelve columns">
+      <div class="profile">
+        {{> avatar user=currentUser size='extra-large' shape='circle' class='avatar-center'}}
+        <h1 class="text-center username">{{currentUser.username}}</h1>
+        <form data-id="update-profile-form">
+          <textarea class="u-full-width biography" placeholder="Write something about you..." data-id="biography">{{currentUser.biography}}</textarea>
+          <input type="submit" class="button-primary u-pull-right" value="Update profile">
+        </form>
+      </div>
+    </div>
+  </div>
+</template>

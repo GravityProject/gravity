@@ -1,12 +1,19 @@
 <template name="navigation">
   <div class="row">
     <div class="twelve columns">
-      <ul class="navigation">
-        <li class="{{activeIfRouteNameIs 'posts'}}">
-          <a href="{{pathFor 'posts'}}">Posts</a>
-        </li>
-      </ul>
-      <hr>
+      <div class="navigation">
+        <ul>
+          <li class="{{activeIfRouteNameIs 'posts'}}">
+            <a href="{{pathFor 'posts'}}">Posts</a>
+          </li>
+        </ul>
+        <hr>
+        <ul>
+          <li class="{{activeIfRouteNameIs 'updateProfile'}}">
+            <a href="{{pathFor 'updateProfile'}}">Update profile</a>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
