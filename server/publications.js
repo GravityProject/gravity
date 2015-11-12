@@ -4,7 +4,7 @@ Meteor.publish(null, function () {
   }
 });
 
-Meteor.publishComposite('posts', function (query, limit) {
+Meteor.publishComposite('posts.all', function (query, limit) {
   check(query, String);
   check(limit, Number);
 

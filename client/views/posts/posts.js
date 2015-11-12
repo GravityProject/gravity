@@ -72,6 +72,6 @@ Template.posts.onCreated(function () {
   this.limit = new ReactiveVar(20);
 
   this.autorun(() => {
-    this.subscribe('posts', this.searchQuery.get(), this.limit.get());
+    this.subscribe('posts.all', this.searchQuery.get(), this.limit.get());
   });
 });
