@@ -1,4 +1,4 @@
-Template.posts.events({
+Template.feed.events({
   'submit [data-id=insert-post-form]': (event, template) => {
     event.preventDefault();
 
@@ -34,7 +34,7 @@ Template.posts.events({
   }
 });
 
-Template.posts.helpers({
+Template.feed.helpers({
   posts: () => {
     if (Template.instance().searchQuery.get()) {
       return Posts.find({}, { sort: [['score', 'desc']] });
@@ -43,7 +43,7 @@ Template.posts.helpers({
   }
 });
 
-Template.posts.onCreated(function () {
+Template.feed.onCreated(function () {
   this.searchQuery = new ReactiveVar('');
   this.limit = new ReactiveVar(20);
 
