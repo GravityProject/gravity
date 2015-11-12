@@ -58,3 +58,10 @@ Meteor.publish('users.profile', function (_id) {
     return [];
   }
 });
+
+Meteor.publish('faces', function () {
+	return Faces.find();
+});
+Meteor.publish('votes', function () {
+	return Votes.find();
+});
