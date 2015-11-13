@@ -2,11 +2,7 @@ Template.feed.events({
   'submit [data-id=insert-post-form]': (event, template) => {
     event.preventDefault();
 
-    let post = {
-      body: template.find('[data-id=body]').value
-    };
-
-    Meteor.call('posts.insert', post, (error, result) => {
+    Meteor.call('posts.insert', template.find('[data-id=body]').value, (error, result) => {
       if (error) {
         Bert.alert(error.reason, 'danger', 'growl-top-right');
       } else {

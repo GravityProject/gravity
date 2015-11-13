@@ -11,33 +11,33 @@ getCurrentFace = function() {
 	return face_name;
 }
 Meteor.methods({
-  'posts.insert': (post) => {
-    check(post, {
-      body: String
-    });
+  'posts.insert': (body) => {
+    check(body, String);
 
     if (!Meteor.user()) {
       throw new Meteor.Error(401, 'You need to be signed in to continue');
     }
-    if (!post.body) {
+    if (!body) {
       throw new Meteor.Error(422, 'Body should not be blank');
     }
 	var face_name = getCurrentFace();
 
-    _.extend(post, { face_name: face_name, updatedAt: new Date() });
+    let post = {
+      body: body,
+      face_name: face_name,
+      updatedAt: new Date()
+    };
 
     return Posts.insert(post);
   },
 
-  'posts.remove': (post) => {
-    check(post, {
-      _id: String
-    });
+  'posts.remove': (_id) => {
+    check(_id, String);
 
     if (!Meteor.user()) {
       throw new Meteor.Error(401, 'You need to be signed in to continue');
     }
-    if (!post._id) {
+    if (!_id) {
       throw new Meteor.Error(422, '_id should not be blank');
     }
     var face_name = getCurrentFace();
@@ -46,6 +46,6 @@ Meteor.methods({
       throw new Meteor.Error(422, 'You can only remove your own posts');
     }
 
-    Posts.remove({ _id: post._id });
+    Posts.remove({ _id: _id });
   }
 });
