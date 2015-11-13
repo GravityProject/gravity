@@ -6,8 +6,9 @@
           {{> avatar user=user size='extra-large' shape='circle' class='avatar-center'}}
           <h1 class="text-center username">@{{user.username}}</h1>
           <p class="text-center">{{user.biography}}</p>
-          <hr>
-          {{#if posts.count}}
+		  <hr>
+		  <h2>Select a face</h2>
+	  {{#if posts.count}}
             {{#each posts}}
               {{> post post=this}}
             {{/each}}

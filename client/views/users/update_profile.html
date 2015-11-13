@@ -1,7 +1,15 @@
 <template name="updateProfile">
   <div class="row">
     <div class="twelve columns">
-      <div class="profile">
+      	  <div>
+             <select>
+				 {{#each faces}}
+				 <option value="{{ face_name }}">{{ face_name }}</option>
+				 {{/each}}
+			 </select>
+			 <input type="text"/>nbsp<button class="button-primary">+ face name</button>
+		 </div>
+        <div class="profile">
         {{> avatar user=currentUser size='extra-large' shape='circle' class='avatar-center'}}
         <h1 class="text-center username">@{{currentUser.username}}</h1>
         <form data-id="update-profile-form">

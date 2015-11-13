@@ -11,6 +11,12 @@ Template.profile.helpers({
 
   posts: function () {
     return Posts.find({}, { sort: { createdAt: -1 } });
+  },
+
+  faces: function () {
+	 var f = Faces.find({ user_id: Meteor.userId() });
+	 console.log('f', f);
+	 return f
   }
 });
 
