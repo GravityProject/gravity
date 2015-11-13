@@ -70,3 +70,13 @@ Meteor.publishComposite('users.profile', function (_id, limit) {
     return [];
   }
 });
+
+Meteor.publish('users.all', function (limit) {
+  check(limit, Number);
+
+  if (this.userId) {
+    return Meteor.users.find({}, { sort: { createdAt: -1 }, limit: limit });
+  } else {
+    return [];
+  }
+});

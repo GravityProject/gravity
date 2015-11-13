@@ -1,0 +1,10 @@
+<template name="smallProfile">
+  <div class="small-profile">
+    {{> avatar user=this.user size='small' shape='circle' class='u-pull-left'}}
+    <p class="u-pull-left">@{{this.user.username}}</p>
+    <div class="u-pull-right">
+      {{> followButton user=this.user}}
+    </div>
+    <div class="clear"></div>
+  </div>
+</template>
