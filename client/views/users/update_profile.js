@@ -5,6 +5,7 @@ Template.updateProfile.onCreated(function() {
 });
 Template.updateProfile.helpers({
   user: () => {
+	return Meteor.user();
     return Meteor.users.findOne({ _id: FlowRouter.getParam('_id') });
   },
 
@@ -37,20 +38,35 @@ Template.updateProfile.events({
         Bert.alert('Profile successfully updated', 'success', 'growl-top-right');
       }
     });
-  }
-  'submit [data-id=update-profile-form]': (event, template) => {
+  },
+  'click button#add_face': (event, template) => {
     event.preventDefault();
-
-    let user = {
-      biography: template.find('[data-id=biography]').value
-    };
-
-    Meteor.call('users.updateProfile', user, (error, result) => {
-      if (error) {
-        Bert.alert(error.reason, 'danger', 'growl-top-right');
-      } else {
-        Bert.alert('Profile successfully updated', 'success', 'growl-top-right');
-      }
-    });
+	var face_input = template.find('input#face_input').value;
+	if (face_input.length < 4) {
+		Bert.alert('Face Names must exceed 4 characters', 'warning', 'growl-top-right');
+		return
+    }	
+	Meteor.call('users.addNewFace', face_input, (error, result) => {
+		if (error) {
+			Bert.alert(error.reason, 'danger', 'growl-top-right');
+		} else {
+			Bert.alert('Face name: '+ face_input + ' added.', 'success', 'growl-top-right');
+		}
+	});
+	return
+  },
+  'change #face_selector': (event, template) => {
+	  event.preventDefault();
+	  var change_face_to = event.target.value;
+	  if (change_face_to) {
+		Meteor.call('users.setCurrentFace', change_face_to, (error, result) => {
+		  if (error) {
+		    Bert.alert(error.reason, 'danger', 'growl-top-right');
+		  } else {
+			Bert.alert('Current face set to: ' + change_face_to + '.', 'info', 'growl-top-right');
+		  }
+		});
+	  }
+	  return
   }
 });
