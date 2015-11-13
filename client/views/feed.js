@@ -1,4 +1,4 @@
-Template.posts.events({
+Template.feed.events({
   'submit [data-id=insert-post-form]': (event, template) => {
     event.preventDefault();
 
@@ -14,22 +14,6 @@ Template.posts.events({
         template.find('[data-id=body]').value = '';
       }
     });
-  },
-
-  'click [data-id=remove-post]': function (event, template) {
-    let post = {
-      _id: this._id
-    };
-
-    if (confirm('do you really want to remove this post? This can not be undone!')) {
-      Meteor.call('posts.remove', post, (error, result) => {
-        if (error) {
-          Bert.alert(error.reason, 'danger', 'growl-top-right');
-        } else {
-          Bert.alert('Post successfully removed', 'success', 'growl-top-right');
-        }
-      });
-    }
   },
 
   'click [data-id=clear-form]': (event, template) => {
@@ -50,28 +34,20 @@ Template.posts.events({
   }
 });
 
-Template.posts.helpers({
+Template.feed.helpers({
   posts: () => {
     if (Template.instance().searchQuery.get()) {
       return Posts.find({}, { sort: [['score', 'desc']] });
     }
     return Posts.find({}, { sort: { createdAt: -1 } });
-  },
-
-  author: function () {
-    return Meteor.users.findOne({ _id: this.authorId }).username;
-  },
-
-  belongsPostToUser: function () {
-    return this.authorId === Meteor.userId();
   }
 });
 
-Template.posts.onCreated(function () {
+Template.feed.onCreated(function () {
   this.searchQuery = new ReactiveVar('');
   this.limit = new ReactiveVar(20);
 
   this.autorun(() => {
-    this.subscribe('posts', this.searchQuery.get(), this.limit.get());
+    this.subscribe('posts.all', this.searchQuery.get(), this.limit.get());
   });
 });

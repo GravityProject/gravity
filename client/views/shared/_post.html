@@ -1,0 +1,19 @@
+<template name="post">
+  <div class="row">
+    <div class="twelve columns">
+      {{#with post}}
+        <div class="post">
+          {{simpleFormat body}}
+          <hr>
+          {{> avatar user=author size='extra-small' shape='circle' class='u-pull-left avatar'}}
+          <a href="{{pathFor 'profile' _id=author._id}}" class="u-pull-left author">@{{author.username}}</a>
+          {{#if belongsPostToUser}}
+            <button class="u-pull-right no-button remove-post" data-id="remove-post"><i class="fa fa-trash"></i></button>
+          {{/if}}
+          <p class="u-pull-right formatted-date">{{fullTimeDate createdAt}}</p>
+          <div class="clear"></div>
+        </div>
+      {{/with}}
+    </div>
+  </div>
+</template>

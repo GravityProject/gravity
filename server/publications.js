@@ -1,4 +1,10 @@
-Meteor.publishComposite('posts', function (query, limit) {
+Meteor.publish(null, function () {
+  if (this.userId) {
+    return Meteor.users.find({ _id: this.userId }, { fields: { biography: 1 } });
+  }
+});
+
+Meteor.publishComposite('posts.all', function (query, limit) {
   check(query, String);
   check(limit, Number);
 
@@ -34,6 +40,28 @@ Meteor.publishComposite('posts', function (query, limit) {
         {
           find: (post) => {
             return Meteor.users.find({ _id: post.authorId });
+          }
+        }
+      ]
+    }
+  } else {
+    return [];
+  }
+});
+
+Meteor.publishComposite('users.profile', function (_id, limit) {
+  check(_id, String);
+  check(limit, Number);
+
+  if (this.userId) {
+    return {
+      find: () => {
+        return Meteor.users.find({ _id: _id });
+      },
+      children: [
+        {
+          find: (user) => {
+            return Posts.find({ authorId: user._id }, { sort: { createdAt: -1 }, limit: limit });
           }
         }
       ]

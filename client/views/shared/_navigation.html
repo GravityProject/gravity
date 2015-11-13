@@ -1,0 +1,19 @@
+<template name="navigation">
+  <div class="row">
+    <div class="twelve columns">
+      <div class="navigation">
+        <ul>
+          <li class="{{activeIfRouteNameIs 'feed'}}">
+            <a href="{{pathFor 'feed'}}"><i class="fa fa-newspaper-o"></i> Feed</a>
+          </li>
+        </ul>
+        <hr>
+        <ul>
+          <li class="{{activeIfRouteNameIs 'updateProfile'}}">
+            <a href="{{pathFor 'updateProfile'}}"><i class="fa fa-user"></i> Update profile</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</template>
