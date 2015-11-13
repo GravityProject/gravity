@@ -4,7 +4,7 @@
       	  <div>
              <select id="face_selector">
 				 {{#each faces}}
-				 <option value="{{ face_name }}">{{ face_name }}</option>
+				 <option {{ select_option }} value="{{ face_name }}">{{ face_name }}</option>
 				 {{/each}}
 			 </select>
 			 <input id="face_input" type="text"/>&nbsp;<button id="add_face" class="button-primary">+ face name</button>

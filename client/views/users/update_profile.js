@@ -15,10 +15,16 @@ Template.updateProfile.helpers({
 
   faces: function () {
 	 var fx = Faces.find().fetch();
-	 console.log('fx', fx);
-	 var f = Faces.find({ user_id: Meteor.userId() }).fetch();
-	 console.log('f', f);
-	 return f
+	 var u = Meteor.user() || { profile: { current_face_name: null }};
+	 var selected = u.profile.current_face_name;
+	 return Faces.find({ user_id: Meteor.userId() }).map(function(face) {
+		 if (face.face_name == selected) {
+			 face.select_option = 'selected';
+		 } else {
+			 face.select_option = '';
+		 }
+		 return face;
+	 })
   }
 });
 
