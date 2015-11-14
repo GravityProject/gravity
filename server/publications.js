@@ -26,7 +26,7 @@ Meteor.publishComposite('posts.all', function (query, limit) {
           parameters.options = { sort: { createdAt: -1 }, limit: limit };
         }
         //Publish the total count of this cursor for easier pagination
-        Counts.publish(this, 'posts', Posts.find(parameters.find), { noReady: true });
+        Counts.publish(this, 'posts.all', Posts.find(parameters.find), { noReady: true });
         return Posts.find(parameters.find, parameters.options);
       },
       children: [
