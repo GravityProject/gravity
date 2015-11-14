@@ -14,9 +14,9 @@ Template.updateProfile.helpers({
   },
 
   faces: function () {
-	 var fx = Faces.find().fetch();
-	 var u = Meteor.user() || { profile: { current_face_name: null }};
-	 var selected = u.profile.current_face_name;
+	 let fx = Faces.find().fetch();
+	 let u = Meteor.user() || { profile: { current_face_name: null }};
+	 let selected = u.profile.current_face_name;
 	 return Faces.find({ user_id: Meteor.userId() }).map(function(face) {
 		 if (face.face_name == selected) {
 			 face.select_option = 'selected';
@@ -47,7 +47,7 @@ Template.updateProfile.events({
   },
   'click button#add_face': (event, template) => {
     event.preventDefault();
-	var face_input = template.find('input#face_input').value;
+	let face_input = template.find('input#face_input').value;
 	if (face_input.length < 4) {
 		Bert.alert('Face Names must exceed 4 characters', 'warning', 'growl-top-right');
 		return
@@ -63,7 +63,7 @@ Template.updateProfile.events({
   },
   'change #face_selector': (event, template) => {
 	  event.preventDefault();
-	  var change_face_to = event.target.value;
+	  let change_face_to = event.target.value;
 	  if (change_face_to) {
 		Meteor.call('users.setCurrentFace', change_face_to, (error, result) => {
 		  if (error) {
