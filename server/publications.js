@@ -11,35 +11,29 @@ Meteor.publishComposite('posts.all', function (query, limit) {
   if (this.userId) {
     return {
       find: () => {
+        //Declare an object to store our query parameters so that we can reuse it
+        let parameters = {};
         if (query) {
-          return Posts.find(
-            {
-              $text: {
-                $search: query
-              }
-            },
-            {
-              fields: {
-                score: {
-                  $meta: 'textScore'
-                }
-              },
-              sort: {
-                score: {
-                  $meta: 'textScore'
-                }
-              },
-              limit: limit
-            }
-          );
-        } else {
-          return Posts.find({}, { sort: { createdAt: -1 }, limit: limit });
+          parameters.find =  { $text: { $search: query } };
+          parameters.options = {
+                fields: { score: { $meta: 'textScore'}},
+                  sort: { score: { $meta: 'textScore'}},
+                  limit: limit
+          };
         }
+        else {
+          parameters.find = {};
+          parameters.options = { sort: { createdAt: -1 }, limit: limit };
+        }
+        //Publish the total count of this cursor for easier pagination
+        Counts.publish(this, 'posts', Posts.find(parameters.find), { noReady: true });
+        return Posts.find(parameters.find, parameters.options);
       },
       children: [
         {
           find: (post) => {
-            return Meteor.users.find({ _id: post.authorId });
+            //Limit the fields of users to be published to the client
+            return Meteor.users.find({ _id: post.authorId }, {fields: {emails: 1, username: 1}});
           }
         }
       ]
