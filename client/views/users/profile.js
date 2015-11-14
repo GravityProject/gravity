@@ -14,9 +14,7 @@ Template.profile.helpers({
   },
 
   faces: function () {
-	 var f = Faces.find({ user_id: Meteor.userId() });
-	 console.log('f', f);
-	 return f
+	 return Faces.find({ userId: Meteor.userId() });
   }
 });
 

@@ -16,13 +16,13 @@ Meteor.startup(() => {
 	if (options.profile) {
 		user.profile = options.profile;
 	}
-	var preexisting_face = Faces.findOne({face_name: user.username });
-	if (preexisting_face) {
+	let preexistingFace = Faces.findOne({faceName : user.username });
+	if (preexistingFace) {
 		throw new Meteor.Error(422, 'Username already exists.');
 	}
-	Faces.insert({ face_name: user.username, user_id: user._id });
-	user.profile.current_face_name = user.username;
-	user.profile.face_names= [user.username]
+	Faces.insert({ faceName : user.username, userId: user._id });
+	user.profile.currentFaceName = user.username;
+	user.profile.faceName = [user.username]
 	return user
   });
 });

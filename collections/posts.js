@@ -1,14 +1,14 @@
 Posts = new Mongo.Collection('posts');
 getCurrentFace = function() {
-	var user = Meteor.user();
-	var face_name = null
+	let user = Meteor.user();
+	let faceName = null
 	if (user && user.profile) {
-	  face_name = user.profile.current_face_name;
+	  faceName = user.profile.currentFaceName;
 	}
-    if (!face_name) {
+    if (!faceName) {
 		throw new Meteor.Error(422, 'User does not have a face.');
 	}
-	return face_name;
+	return faceName;
 }
 Meteor.methods({
   'posts.insert': (body) => {
@@ -20,11 +20,11 @@ Meteor.methods({
     if (!body) {
       throw new Meteor.Error(422, 'Body should not be blank');
     }
-	var face_name = getCurrentFace();
+	let faceName = getCurrentFace();
 
     let post = {
       body: body,
-      face_name: face_name,
+      faceName: faceName,
       updatedAt: new Date()
     };
 
@@ -40,9 +40,9 @@ Meteor.methods({
     if (!_id) {
       throw new Meteor.Error(422, '_id should not be blank');
     }
-    var face_name = getCurrentFace();
+    let faceName = getCurrentFace();
 
-    if (face_name !== Posts.findOne({ _id: post._id }).face_name) {
+    if (faceName !== Posts.findOne({ _id: post._id }).faceName) {
       throw new Meteor.Error(422, 'You can only remove your own posts');
     }
 

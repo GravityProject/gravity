@@ -4,14 +4,14 @@
       	  <div>
              <select id="face_selector">
 				 {{#each faces}}
-				 <option {{ select_option }} value="{{ face_name }}">{{ face_name }}</option>
+				 <option {{ selectOption }} value="{{ faceName }}">{{ faceName }}</option>
 				 {{/each}}
 			 </select>
-			 <input id="face_input" type="text"/>&nbsp;<button id="add_face" class="button-primary">+ face name</button>
+			 <input id="faceInput" type="text"/>&nbsp;<button id="add_face" class="button-primary">+ face name</button>
 		 </div>
         <div class="profile">
 			{{> avatar initials=initial size='extra-large' shape='circle' class='avatar-center'}}
-        <h1 class="text-center username">@{{user.profile.current_face_name}}</h1>
+        <h1 class="text-center username">@{{user.profile.currentFaceName}}</h1>
         <form data-id="update-profile-form">
           <textarea class="u-full-width biography" placeholder="Write something about you..." data-id="biography">{{currentUser.biography}}</textarea>
           <input type="submit" class="button-primary u-pull-right" value="Update profile">

@@ -1,11 +1,11 @@
-/*
+ /*
  * Useraccounts configuration.
  *
  */
 
-var preSignFaceCheck = function (error, state) {
-	var preexisting_face = Faces.findOne({face_name: state.username });
-	if (preexisting_face) {
+let preSignFaceCheck = function (error, state) {
+	let preexistingFace = Faces.findOne({faceName: state.username });
+	if (preexistingFace) {
 		throw new Meteor.Error(422, 'Username is existing.');
 	}
     return state;

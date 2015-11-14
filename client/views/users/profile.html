@@ -5,7 +5,7 @@
         {{#if Template.subscriptionsReady}}
           {{#with user}}
             {{> avatar user=user size='extra-large' shape='circle' class='avatar-center'}}
-            <h1 class="text-center username">@{{user.profile.current_face_name}}</h1>
+            <h1 class="text-center username">@{{user.profile.currentFaceName}}</h1>
             <p class="text-center">{{user.biography}}</p>
             <div class="text-center">
               {{> followButton user=this}}

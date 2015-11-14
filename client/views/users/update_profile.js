@@ -9,10 +9,13 @@ Template.updateProfile.helpers({
     return Meteor.users.findOne({ _id: FlowRouter.getParam('_id') });
   },
   initial: ()=> {
-    let user = Meteor.user();
-	let profile = user.profile;
-	let current_face_name = profile.current_face_name;
-	return current_face_name.charAt(0);
+    let user = Meteor.user() || {}
+	let profile = user.profile || {}
+	let currentFaceName = profile.currentFaceName;
+	if (!currentFaceName) {
+		return '?'
+	}
+	return currentFaceName.charAt(0);
   },
   posts: function () {
     return Posts.find({}, { sort: { createdAt: -1 } });
@@ -20,13 +23,13 @@ Template.updateProfile.helpers({
 
   faces: function () {
 	 let fx = Faces.find().fetch();
-	 let u = Meteor.user() || { profile: { current_face_name: null }};
-	 let selected = u.profile.current_face_name;
-	 return Faces.find({ user_id: Meteor.userId() }).map(function(face) {
-		 if (face.face_name == selected) {
-			 face.select_option = 'selected';
+	 let u = Meteor.user() || { profile: { currentFaceName: null }};
+	 let selected = u.profile.currentFaceName;
+	 return Faces.find({ userId: Meteor.userId() }).map(function(face) {
+		 if (face.faceName == selected) {
+			 face.selectOption = 'selected';
 		 } else {
-			 face.select_option = '';
+			 face.selectOption = '';
 		 }
 		 return face;
 	 })
@@ -52,16 +55,16 @@ Template.updateProfile.events({
   },
   'click button#add_face': (event, template) => {
     event.preventDefault();
-	let face_input = template.find('input#face_input').value;
-	if (face_input.length < 4) {
+	let faceInput = template.find('input#faceInput').value;
+	if (faceInput.length < 4) {
 		Bert.alert('Face Names must exceed 4 characters', 'warning', 'growl-top-right');
 		return
     }	
-	Meteor.call('users.addNewFace', face_input, (error, result) => {
+	Meteor.call('users.addNewFace', faceInput, (error, result) => {
 		if (error) {
 			Bert.alert(error.reason, 'danger', 'growl-top-right');
 		} else {
-			Bert.alert('Face name: '+ face_input + ' added.', 'success', 'growl-top-right');
+			Bert.alert('Face name: '+ faceInput + ' added.', 'success', 'growl-top-right');
 		}
 	});
 	return

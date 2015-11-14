@@ -1,27 +1,27 @@
 Meteor.methods({
-  'users.addNewFace': (face_input)=> {
-    check(face_input, String);
-	let user_id = Meteor.userId();
-	if (!user_id) {
+  'users.addNewFace': (faceInput)=> {
+    check(faceInput, String);
+	let userId = Meteor.userId();
+	if (!userId) {
 		throw new Meteor.Error(401, 'You need to be signed in to continue.');
 	}
-	let preexisting_face = Faces.findOne({ face_name: face_input });
-	if (preexisting_face) {
+	let preexistingFace = Faces.findOne({ faceName: faceInput });
+	if (preexistingFace) {
 	  throw new Meteor.Error(401, 'Requested Face Name already exists');
 	}
 	
-	face_id = Faces.insert({ face_name: face_input, user_id: user_id}); 
+	faceId = Faces.insert({ faceName: faceInput, userId: userId}); 
   },
-  'users.setCurrentFace': (face_name) => {
-	check(face_name, String);
-	let user_id = Meteor.userId()
-	if (!user_id){
+  'users.setCurrentFace': (faceName) => {
+	check(faceName, String);
+	let userId = Meteor.userId()
+	if (!userId){
 	  throw new Meteor.Error(401, 'You must be authenticated to continue.');
 	} else {
-	  let existing_face = Faces.findOne({ face_name: face_name });
-	  if (existing_face) {
-	    if (existing_face.user_id == user_id) {
-	      Meteor.users.update({ _id: user_id }, { $set: { 'profile.current_face_name': face_name }});
+	  let existingFace = Faces.findOne({ faceName: faceName });
+	  if (existingFace) {
+	    if (existingFace.userId == userId) {
+	      Meteor.users.update({ _id: userId }, { $set: { 'profile.currentFaceName': faceName }});
 		} else {
 		  throw new Meteor.Error(401, 'Face Name belongs to different user.');
 		}
