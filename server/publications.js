@@ -1,6 +1,6 @@
 Meteor.publish(null, function () {
   if (this.userId) {
-    return Meteor.users.find({ _id: this.userId }, { fields: { biography: 1 } });
+    return Meteor.users.find({ _id: this.userId }, { fields: { biography: 1, followingIds: 1 } });
   }
 });
 
@@ -66,6 +66,16 @@ Meteor.publishComposite('users.profile', function (_id, limit) {
         }
       ]
     }
+  } else {
+    return [];
+  }
+});
+
+Meteor.publish('users.all', function (limit) {
+  check(limit, Number);
+
+  if (this.userId) {
+    return Meteor.users.find({}, { sort: { createdAt: -1 }, limit: limit });
   } else {
     return [];
   }

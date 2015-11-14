@@ -1,0 +1,9 @@
+<template name="followButton">
+  {{#if isThisUserNotCurrentUser}}
+    {{#if isCurrentUserFollowingThisUser}}
+      <button class="button-danger" data-id="unfollow"><i class="fa fa-minus"></i> <i class="fa fa-user"></i> Unfollow</button>
+    {{else}}
+      <button class="button-primary" data-id="follow"><i class="fa fa-plus"></i> <i class="fa fa-user"></i> Follow</button>
+    {{/if}}
+  {{/if}}
+</template>

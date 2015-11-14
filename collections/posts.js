@@ -1,38 +1,39 @@
 Posts = new Mongo.Collection('posts');
 
 Meteor.methods({
-  'posts.insert': (post) => {
-    check(post, {
-      body: String
-    });
+  'posts.insert': (body) => {
+    check(body, String);
 
     if (!Meteor.user()) {
       throw new Meteor.Error(401, 'You need to be signed in to continue');
     }
-    if (!post.body) {
+    if (!body) {
       throw new Meteor.Error(422, 'Body should not be blank');
     }
 
-    _.extend(post, { authorId: Meteor.userId(), createdAt: new Date(), updatedAt: new Date() });
+    let post = {
+      body: body,
+      authorId: Meteor.userId(),
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
 
     return Posts.insert(post);
   },
 
-  'posts.remove': (post) => {
-    check(post, {
-      _id: String
-    });
+  'posts.remove': (_id) => {
+    check(_id, String);
 
     if (!Meteor.user()) {
       throw new Meteor.Error(401, 'You need to be signed in to continue');
     }
-    if (!post._id) {
+    if (!_id) {
       throw new Meteor.Error(422, '_id should not be blank');
     }
-    if (Meteor.userId() !== Posts.findOne({ _id: post._id }).authorId) {
+    if (Meteor.userId() !== Posts.findOne({ _id: _id }).authorId) {
       throw new Meteor.Error(422, 'You can only remove your own posts');
     }
 
-    Posts.remove({ _id: post._id });
+    Posts.remove({ _id: _id });
   }
 });
