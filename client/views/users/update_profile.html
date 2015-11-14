@@ -10,7 +10,7 @@
 			 <input id="face_input" type="text"/>&nbsp;<button id="add_face" class="button-primary">+ face name</button>
 		 </div>
         <div class="profile">
-        {{> avatar user=currentUser size='extra-large' shape='circle' class='avatar-center'}}
+			{{> avatar initials=initial size='extra-large' shape='circle' class='avatar-center'}}
         <h1 class="text-center username">@{{user.profile.current_face_name}}</h1>
         <form data-id="update-profile-form">
           <textarea class="u-full-width biography" placeholder="Write something about you..." data-id="biography">{{currentUser.biography}}</textarea>

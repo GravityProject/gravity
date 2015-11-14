@@ -8,7 +8,12 @@ Template.updateProfile.helpers({
 	return Meteor.user();
     return Meteor.users.findOne({ _id: FlowRouter.getParam('_id') });
   },
-
+  initial: ()=> {
+    let user = Meteor.user();
+	let profile = user.profile;
+	let current_face_name = profile.current_face_name;
+	return current_face_name.charAt(0);
+  },
   posts: function () {
     return Posts.find({}, { sort: { createdAt: -1 } });
   },
