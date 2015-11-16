@@ -35,9 +35,9 @@ Template.feed.helpers({
   posts: () => {
     const instance = Template.instance();
     if (instance.searchQuery.get()) {
-      return Posts.find({}, { sort: [['score', 'desc']] }, { limit: instance.loaded.get() });
+      return Posts.find({}, { sort: [['score', 'desc']] });
     }
-    return Posts.find({}, { sort: { createdAt: -1 } }, { limit: instance.loaded.get() });
+    return Posts.find({}, { sort: { createdAt: -1 } });
   },
 
   hasMorePosts: () => {
@@ -48,12 +48,8 @@ Template.feed.helpers({
 Template.feed.onCreated(function () {
   this.searchQuery = new ReactiveVar('');
   this.limit = new ReactiveVar(20);
-  this.loaded = new ReactiveVar(0);
 
   this.autorun(() => {
-    let subscription = this.subscribe('posts.all', this.searchQuery.get(), this.limit.get());
-    if (subscription.ready()) {
-      this.loaded.set(this.limit.get());
-    }
+    this.subscribe('posts.all', this.searchQuery.get(), this.limit.get());
   });
 });
