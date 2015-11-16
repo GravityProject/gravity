@@ -1,5 +1,21 @@
+ /*
+ * Useraccounts configuration.
+ *
+ */
+
+let preSignFaceCheck = function (error, state) {
+	let preexistingFace = Faces.findOne({faceName: state.username });
+	if (preexistingFace) {
+		throw new Meteor.Error(422, 'Username is existing.');
+	}
+    return state;
+};
+
+	preSignUpHook: preSignFaceCheck,
+
 AccountsTemplates.configure({
   defaultLayout: 'layout',
+  preSignUpHook: preSignFaceCheck,
   defaultLayoutRegions: {
     header: 'header'//,
     //footer: '_footer'

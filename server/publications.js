@@ -71,6 +71,13 @@ Meteor.publishComposite('users.profile', function (_id, limit) {
   }
 });
 
+Meteor.publish('faces', function () {
+	return Faces.find();
+});
+Meteor.publish('votes', function () {
+	return Votes.find();
+});
+
 Meteor.publish('users.all', function (limit) {
   check(limit, Number);
 
