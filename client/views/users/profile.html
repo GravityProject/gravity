@@ -2,26 +2,28 @@
   <div class="row">
     <div class="twelve columns">
       <div class="profile">
+        {{#with user}}
+          {{> avatar user=user size='extra-large' shape='circle' class='avatar-center'}}
+          <h1 class="text-center username">@{{user.username}}</h1>
+          <p class="text-center">{{user.biography}}</p>
+          <div class="text-center">
+            {{> followButton user=this}}
+          </div>
+        {{/with}}
+        <hr>
+        {{#if posts.count}}
+          {{#each posts}}
+            {{> post post=this}}
+          {{/each}}
+        {{else}}
+          <div class="alert info">The user has not posted anything yet</div>
+        {{/if}}
         {{#if Template.subscriptionsReady}}
-          {{#with user}}
-            {{> avatar user=user size='extra-large' shape='circle' class='avatar-center'}}
-            <h1 class="text-center username">@{{user.username}}</h1>
-            <p class="text-center">{{user.biography}}</p>
-            <div class="text-center">
-              {{> followButton user=this}}
-            </div>
-          {{/with}}
-          <hr>
-          {{#if posts.count}}
-            {{#each posts}}
-              {{> post post=this}}
-            {{/each}}
+          {{#if hasMorePosts}}
             <button class="u-full-width" data-id="load-more">Load more</button>
-          {{else}}
-            <div class="text-center">The user has not posted anything yet</div>
           {{/if}}
         {{else}}
-          <div class="text-center">Loading profile...</div>
+          <div class="text-center">Loading posts...</div>
         {{/if}}
       </div>
     </div>

@@ -11,6 +11,10 @@ Template.profile.helpers({
 
   posts: function () {
     return Posts.find({}, { sort: { createdAt: -1 } });
+  },
+
+  hasMorePosts: () => {
+    return Template.instance().limit.get() <= Counts.get('posts.all');
   }
 });
 

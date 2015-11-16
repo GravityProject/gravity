@@ -7,6 +7,10 @@ Template.browseUsers.events({
 Template.browseUsers.helpers({
   users: () => {
     return Meteor.users.find({ _id: { $ne: Meteor.userId() } }, { sort: { createdAt: -1 } });
+  },
+
+  hasMoreUsers: () => {
+    return Template.instance().limit.get() <= Counts.get('users.all');
   }
 });
 
