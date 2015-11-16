@@ -23,6 +23,7 @@ Template.feed.events({
   'keyup [data-id=search-query]': _.debounce((event, template) => {
     event.preventDefault();
     template.searchQuery.set(template.find('[data-id=search-query]').value);
+    template.limit.set(20);
   }, 300),
 
   'submit [data-id=search-posts-form]': (event, template) => {
@@ -32,18 +33,27 @@ Template.feed.events({
 
 Template.feed.helpers({
   posts: () => {
-    if (Template.instance().searchQuery.get()) {
-      return Posts.find({}, { sort: [['score', 'desc']] });
+    const instance = Template.instance();
+    if (instance.searchQuery.get()) {
+      return Posts.find({}, { sort: [['score', 'desc']] }, { limit: instance.loaded.get() });
     }
-    return Posts.find({}, { sort: { createdAt: -1 } });
+    return Posts.find({}, { sort: { createdAt: -1 } }, { limit: instance.loaded.get() });
+  },
+
+  hasMorePosts: () => {
+    return Template.instance().limit.get() <= Counts.get('posts.all');
   }
 });
 
 Template.feed.onCreated(function () {
   this.searchQuery = new ReactiveVar('');
   this.limit = new ReactiveVar(20);
+  this.loaded = new ReactiveVar(0);
 
   this.autorun(() => {
-    this.subscribe('posts.all', this.searchQuery.get(), this.limit.get());
+    let subscription = this.subscribe('posts.all', this.searchQuery.get(), this.limit.get());
+    if (subscription.ready()) {
+      this.loaded.set(this.limit.get());
+    }
   });
 });
