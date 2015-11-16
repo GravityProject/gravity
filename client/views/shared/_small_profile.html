@@ -1,7 +1,9 @@
 <template name="smallProfile">
   <div class="small-profile">
-    {{> avatar user=this.user size='small' shape='circle' class='u-pull-left'}}
-    <p class="u-pull-left">@{{this.user.username}}</p>
+    <a href="{{pathFor 'profile' _id=this.user._id}}">
+      {{> avatar user=this.user size='small' shape='circle' class='u-pull-left'}}
+    </a>
+    <a href="{{pathFor 'profile' _id=this.user._id}}" class="u-pull-left">@{{this.user.username}}</a>
     <div class="u-pull-right">
       {{> followButton user=this.user}}
     </div>
