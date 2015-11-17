@@ -12,10 +12,6 @@ Template.feed.events({
     });
   },
 
-  'click [data-id=clear-form]': (event, template) => {
-    template.find('[data-id=body]').value = '';
-  },
-
   'click [data-id=load-more]': (event, template) => {
     template.limit.set(template.limit.get() + 20);
   },
@@ -52,4 +48,8 @@ Template.feed.onCreated(function () {
   this.autorun(() => {
     this.subscribe('posts.all', this.searchQuery.get(), this.limit.get());
   });
+});
+
+Template.feed.onRendered(() => {
+  autosize($('[data-id=body]'));
 });
