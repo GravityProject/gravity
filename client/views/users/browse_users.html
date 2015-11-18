@@ -1,6 +1,13 @@
 <template name="browseUsers">
   <div class="row">
     <div class="twelve columns">
+      <form data-id="search-users-form">
+        <input type="text" class="u-full-width" placeholder="Search users..." data-id="search-query">
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="twelve columns">
       {{#if users.count}}
         {{#each users}}
           {{> smallProfile user=this}}
