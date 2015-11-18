@@ -23,7 +23,7 @@ Template.browseUsers.helpers({
 Template.browseUsers.onCreated(function () {
   this.searchQuery = new ReactiveVar('');
   this.limit = new ReactiveVar(20);
-  console.log("saleem");
+  
   this.autorun(() => {
     this.subscribe('users.all',this.searchQuery.get(), this.limit.get());
   });
