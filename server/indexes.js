@@ -3,5 +3,5 @@ Posts._ensureIndex({
 });
 
 Meteor.users._ensureIndex({
-	'username': 'text'
+  'username': 'text'
 });

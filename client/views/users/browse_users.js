@@ -7,7 +7,11 @@ Template.browseUsers.events({
     event.preventDefault();
     template.searchQuery.set(template.find('[data-id=search-query]').value);
     template.limit.set(20);
-  }, 300)
+  }, 300),
+
+  'submit [data-id=search-users-form]': (event, template) => {
+    event.preventDefault();
+  }
 });
 
 Template.browseUsers.helpers({
@@ -23,8 +27,8 @@ Template.browseUsers.helpers({
 Template.browseUsers.onCreated(function () {
   this.searchQuery = new ReactiveVar('');
   this.limit = new ReactiveVar(20);
-  
+
   this.autorun(() => {
-    this.subscribe('users.all',this.searchQuery.get(), this.limit.get());
+    this.subscribe('users.all', this.searchQuery.get(), this.limit.get());
   });
 });

@@ -64,37 +64,36 @@ Meteor.publishComposite('users.profile', function (_id, limit) {
 });
 
 Meteor.publish('users.all', function (query, limit) {
+  check(query, String);
   check(limit, Number);
-  check(query,String);
 
   if (this.userId) {
-
-
-    if(query) {
-      Counts.publish(this,'users.all',Meteor.users.find(), { noReady:true });
+    if (query) {
+      Counts.publish(this, 'users.all', Meteor.users.find(), { noReady:true });
       return Meteor.users.find(
-      {
-        $text: {
-          $search: query
-        }
-      },
-      {
-        fields: {
-          score: {
-            $meta: 'textScore'
+        {
+          $text: {
+            $search: query
           }
         },
-        sort: {
-          score: {
-            $meta: 'textScore'
-          }
-        }, limit: limit
-      }
+        {
+          fields: {
+            score: {
+              $meta: 'textScore'
+            }
+          },
+          sort: {
+            score: {
+              $meta: 'textScore'
+            }
+          },
+          limit: limit
+        }
       );
     } else {
-    Counts.publish(this, 'users.all', Meteor.users.find(), { noReady: true });
-    return Meteor.users.find({}, { sort: { createdAt: -1 }, limit: limit });
-  }
+      Counts.publish(this, 'users.all', Meteor.users.find(), { noReady: true });
+      return Meteor.users.find({}, { sort: { createdAt: -1 }, limit: limit });
+    }
   } else {
     return [];
   }
