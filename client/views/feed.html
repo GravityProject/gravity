@@ -17,13 +17,14 @@
   </div>
   <div class="row">
     <div class="twelve columns">
+      {{#if posts.count}}
         {{#each posts}}
           {{> post post=this}}
         {{/each}}
+      {{else}}
+        <div class="alert info">There are no matching posts to display</div>
+      {{/if}}
       {{#if Template.subscriptionsReady}}
-        {{#unless instance.postsCount.get}}
-          <div class="alert info">There are no matching posts to display</div>
-        {{/unless}}
         {{#if hasMorePosts}}
           <button class="u-full-width" data-id="load-more">Load more</button>
         {{/if}}
