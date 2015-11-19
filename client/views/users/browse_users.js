@@ -20,15 +20,17 @@ Template.browseUsers.helpers({
   },
 
   hasMoreUsers: () => {
-    return Template.instance().limit.get() <= Counts.get('users.all');
+    return Template.instance().limit.get() <= Template.instance().usersCount.get();
   }
 });
 
 Template.browseUsers.onCreated(function () {
   this.searchQuery = new ReactiveVar('');
   this.limit = new ReactiveVar(20);
+  this.usersCount = new ReactiveVar(0);
 
   this.autorun(() => {
     this.subscribe('users.all', this.searchQuery.get(), this.limit.get());
+    this.usersCount.set(Counts.get('posts.all'));
   });
 });

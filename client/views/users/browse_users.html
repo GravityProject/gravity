@@ -8,14 +8,13 @@
   </div>
   <div class="row">
     <div class="twelve columns">
-      {{#if users.count}}
-        {{#each users}}
-          {{> smallProfile user=this}}
-        {{/each}}
-      {{else}}
-        <div class="alert info">There are no matching users to display</div>
-      {{/if}}
+      {{#each users}}
+        {{> smallProfile user=this}}
+      {{/each}}
       {{#if Template.subscriptionsReady}}
+        {{#unless instance.usersCount.get}}
+          <div class="alert info">There are no matching users to display</div>
+        {{/unless}}
         {{#if hasMoreUsers}}
           <button class="u-full-width" data-id="load-more">Load more</button>
         {{/if}}
