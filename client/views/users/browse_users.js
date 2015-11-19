@@ -31,6 +31,6 @@ Template.browseUsers.onCreated(function () {
 
   this.autorun(() => {
     this.subscribe('users.all', this.searchQuery.get(), this.limit.get());
-    this.usersCount.set(Counts.get('posts.all'));
+    this.usersCount.set(Counts.get('users.all'));
   });
 });
