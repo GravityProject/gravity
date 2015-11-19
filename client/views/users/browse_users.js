@@ -1,6 +1,16 @@
 Template.browseUsers.events({
   'click [data-id=load-more]': (event, template) => {
     template.limit.set(template.limit.get() + 20);
+  },
+
+  'keyup [data-id=search-query]': _.debounce((event, template) => {
+    event.preventDefault();
+    template.searchQuery.set(template.find('[data-id=search-query]').value);
+    template.limit.set(20);
+  }, 300),
+
+  'submit [data-id=search-users-form]': (event, template) => {
+    event.preventDefault();
   }
 });
 
@@ -15,9 +25,10 @@ Template.browseUsers.helpers({
 });
 
 Template.browseUsers.onCreated(function () {
+  this.searchQuery = new ReactiveVar('');
   this.limit = new ReactiveVar(20);
 
   this.autorun(() => {
-    this.subscribe('users.all', this.limit.get());
+    this.subscribe('users.all', this.searchQuery.get(), this.limit.get());
   });
 });
