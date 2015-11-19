@@ -112,3 +112,17 @@ Meteor.publish('users.all', function (query, limit) {
     return [];
   }
 });
+
+Meteor.publish('users.following', function () {
+  if (this.userId) {
+    let currentUser = Meteor.users.findOne({ _id: this.userId });
+
+    if (currentUser.followingIds && currentUser.followingIds.length !== 0) {
+      return Meteor.users.find({ _id: { $in: currentUser.followingIds } }, { sort: { username: 1 } });
+    } else {
+      return [];
+    }
+  } else {
+    return [];
+  }
+});
