@@ -69,7 +69,7 @@ Meteor.publish('users.all', function (query, limit) {
 
   if (this.userId) {
     if (query) {
-      Counts.publish(this, 'users.all', Meteor.users.find(), { noReady:true });
+      Counts.publish(this, 'users.all', Meteor.users.find({$text: {$search: query}}), { noReady:true });
       return Meteor.users.find(
         {
           $text: {
