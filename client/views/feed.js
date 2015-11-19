@@ -37,16 +37,18 @@ Template.feed.helpers({
   },
 
   hasMorePosts: () => {
-    return Template.instance().limit.get() <= Counts.get('posts.all');
+    return Template.instance().limit.get() <= Template.instance().postsCount.get()
   }
 });
 
 Template.feed.onCreated(function () {
   this.searchQuery = new ReactiveVar('');
   this.limit = new ReactiveVar(20);
+  this.postsCount = new ReactiveVar(0);
 
   this.autorun(() => {
     this.subscribe('posts.all', this.searchQuery.get(), this.limit.get());
+    this.postsCount.set(Counts.get('posts.all'));
   });
 });
 
