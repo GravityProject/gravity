@@ -38,3 +38,5 @@ UI.registerHelper('formatDate', (date) => {
 UI.registerHelper('fullTimeDate', (date) => {
   return moment(date).format('HH:mm:ss, LL');
 });
+
+Template.registerHelper('instance', () => Template.instance());
