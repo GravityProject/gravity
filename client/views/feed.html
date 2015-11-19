@@ -10,6 +10,17 @@
   <hr>
   <div class="row">
     <div class="twelve columns">
+      <div class="text-center">
+        <ul class="feed-filter">
+          <li><button type="button" class="{{activeIfFilterIs 'all'}}" data-id="all">All</button></li>
+          <li><button type="button" class="{{activeIfFilterIs 'following'}}" data-id="following">Following</button></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="twelve columns">
       <form data-id="search-posts-form">
         <input type="text" class="u-full-width" placeholder="Search posts..." data-id="search-query">
       </form>
