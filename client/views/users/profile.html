@@ -11,11 +11,9 @@
           </div>
         {{/with}}
         <hr>
-
         {{#each posts}}
           {{> post post=this}}
         {{/each}}
-
         {{#if Template.subscriptionsReady}}
           {{#unless instance.userPostsCount.get}}
             <div class="alert info">The user has not posted anything yet</div>
