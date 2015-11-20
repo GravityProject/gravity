@@ -27,3 +27,27 @@ form.insert-post-form {
 button.remove-post {
   margin-top: -8px;
 }
+
+ul.feed-filter {
+  list-style: none;
+  margin-bottom: 0;
+  display: inline-block;
+  li {
+    float: left;
+    margin-bottom: 0;
+    margin-right: 10px;
+    button {
+      margin-bottom: 0;
+      &.active {
+        background: rgba(0, 0, 0, .1);
+      }
+    }
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+textarea.insert-post-form {
+  min-height: 39px;
+}

@@ -12,8 +12,11 @@
         </ul>
         <hr>
         <ul>
+          <li class="{{activeIfRouteNameIs 'following'}}">
+            <a href="{{pathFor 'following'}}"><i class="fa fa-user"></i> Following</a>
+          </li>
           <li class="{{activeIfRouteNameIs 'updateProfile'}}">
-            <a href="{{pathFor 'updateProfile'}}"><i class="fa fa-user"></i> Update profile</a>
+            <a href="{{pathFor 'updateProfile'}}"><i class="fa fa-cogs"></i> Update profile</a>
           </li>
         </ul>
       </div>

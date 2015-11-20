@@ -4,16 +4,31 @@ Meteor.publish(null, function () {
   }
 });
 
-Meteor.publishComposite('posts.all', function (query, limit) {
+Meteor.publishComposite('posts.all', function (query, filter, limit) {
   check(query, String);
+  check(filter, String);
   check(limit, Number);
 
   if (this.userId) {
+    let currentUser = Meteor.users.findOne({ _id: this.userId });
+
+    let parameters = {
+      find: {},
+      options: {}
+    };
+
+    if (filter === 'following') {
+      if (currentUser.followingIds && currentUser.followingIds.length !== 0) {
+        parameters.find.authorId = { $in: currentUser.followingIds };
+      } else {
+        parameters.find.authorId = { $in: [] };
+      }
+    }
+
     return {
       find: () => {
-        let parameters = {};
         if (query) {
-          parameters.find =  { $text: { $search: query } };
+          parameters.find.$text = { $search: query };
           parameters.options = {
             fields: { score: { $meta: 'textScore' } },
               sort: { score: { $meta: 'textScore' } },
@@ -21,7 +36,6 @@ Meteor.publishComposite('posts.all', function (query, limit) {
           };
         }
         else {
-          parameters.find = {};
           parameters.options = { sort: { createdAt: -1 }, limit: limit };
         }
         Counts.publish(this, 'posts.all', Posts.find(parameters.find), { noReady: true });
@@ -93,6 +107,20 @@ Meteor.publish('users.all', function (query, limit) {
     } else {
       Counts.publish(this, 'users.all', Meteor.users.find(), { noReady: true });
       return Meteor.users.find({}, { sort: { createdAt: -1 }, limit: limit });
+    }
+  } else {
+    return [];
+  }
+});
+
+Meteor.publish('users.following', function () {
+  if (this.userId) {
+    let currentUser = Meteor.users.findOne({ _id: this.userId });
+
+    if (currentUser.followingIds && currentUser.followingIds.length !== 0) {
+      return Meteor.users.find({ _id: { $in: currentUser.followingIds } }, { sort: { username: 1 } });
+    } else {
+      return [];
     }
   } else {
     return [];

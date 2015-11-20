@@ -12,6 +12,14 @@ Template.feed.events({
     });
   },
 
+  'click [data-id=all]': (event, template) => {
+    template.filter.set('all');
+  },
+
+  'click [data-id=following]': (events, template) => {
+    template.filter.set('following');
+  },
+
   'click [data-id=load-more]': (event, template) => {
     template.limit.set(template.limit.get() + 20);
   },
@@ -36,6 +44,12 @@ Template.feed.helpers({
     return Posts.find({}, { sort: { createdAt: -1 } });
   },
 
+  activeIfFilterIs: (filter) => {
+    if (filter === Template.instance().filter.get()) {
+      return 'active';
+    }
+  },
+
   hasMorePosts: () => {
     return Template.instance().limit.get() <= Template.instance().postsCount.get()
   }
@@ -43,11 +57,12 @@ Template.feed.helpers({
 
 Template.feed.onCreated(function () {
   this.searchQuery = new ReactiveVar('');
+  this.filter = new ReactiveVar('all');
   this.limit = new ReactiveVar(20);
   this.postsCount = new ReactiveVar(0);
 
   this.autorun(() => {
-    this.subscribe('posts.all', this.searchQuery.get(), this.limit.get());
+    this.subscribe('posts.all', this.searchQuery.get(), this.filter.get(), this.limit.get());
     this.postsCount.set(Counts.get('posts.all'));
   });
 });
