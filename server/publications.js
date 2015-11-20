@@ -126,3 +126,13 @@ Meteor.publish('users.following', function () {
     return [];
   }
 });
+
+Meteor.publish('users.follower', function () {
+  if (this.userId) {
+    let currentUser = Meteor.users.findOne({ _id: this.userId });
+
+    return Meteor.users.find({ followingIds: { $in: [currentUser._id] } }, { sort: { username: 1 } });
+  } else {
+    return [];
+  }
+});

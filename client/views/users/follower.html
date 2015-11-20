@@ -1,0 +1,17 @@
+<template name="follower">
+  <div class="row">
+    <div class="twelve columns">
+      {{#if Template.subscriptionsReady}}
+        {{#if users.count}}
+          {{#each users}}
+            {{> smallProfile user=this}}
+          {{/each}}
+        {{else}}
+          <div class="alert info">There are no users to display</div>
+        {{/if}}
+      {{else}}
+        <div class="text-center">Loading users...</div>
+      {{/if}}
+    </div>
+  </div>
+</template>
