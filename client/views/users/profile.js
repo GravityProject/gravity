@@ -14,14 +14,16 @@ Template.profile.helpers({
   },
 
   hasMorePosts: () => {
-    return Template.instance().limit.get() <= Counts.get('posts.all');
+    return Template.instance().limit.get() <= Template.instance().userPostsCount.get();
   }
 });
 
 Template.profile.onCreated(function () {
   this.limit = new ReactiveVar(20);
+  this.userPostsCount = new ReactiveVar(0);
 
   this.autorun(() => {
     this.subscribe('users.profile', FlowRouter.getParam('_id'), this.limit.get());
+    this.userPostsCount.set(Counts.get('users.profile'));
   });
 });

@@ -11,14 +11,15 @@
           </div>
         {{/with}}
         <hr>
-        {{#if posts.count}}
-          {{#each posts}}
-            {{> post post=this}}
-          {{/each}}
-        {{else}}
-          <div class="alert info">The user has not posted anything yet</div>
-        {{/if}}
+
+        {{#each posts}}
+          {{> post post=this}}
+        {{/each}}
+
         {{#if Template.subscriptionsReady}}
+          {{#unless instance.userPostsCount.get}}
+            <div class="alert info">The user has not posted anything yet</div>
+          {{/unless}}
           {{#if hasMorePosts}}
             <button class="u-full-width" data-id="load-more">Load more</button>
           {{/if}}

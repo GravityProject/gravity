@@ -66,7 +66,7 @@ Meteor.publishComposite('users.profile', function (_id, limit) {
       children: [
         {
           find: (user) => {
-            Counts.publish(this, 'posts.all', Posts.find({ authorId: user._id }), { noReady: true });
+            Counts.publish(this, 'users.profile', Posts.find({ authorId: user._id }), { noReady: true });
             return Posts.find({ authorId: user._id }, { sort: { createdAt: -1 }, limit: limit });
           }
         }
