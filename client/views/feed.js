@@ -51,7 +51,7 @@ Template.feed.helpers({
   },
 
   hasMorePosts: () => {
-    return Template.instance().limit.get() <= Template.instance().postsCount.get()
+    return Template.instance().limit.get() <= Template.instance().postsCount.get();
   }
 });
 

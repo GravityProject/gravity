@@ -28,9 +28,9 @@
   </div>
   <div class="row">
     <div class="twelve columns">
-        {{#each posts}}
-          {{> post post=this}}
-        {{/each}}
+      {{#each posts}}
+        {{> post post=this}}
+      {{/each}}
       {{#if Template.subscriptionsReady}}
         {{#unless instance.postsCount.get}}
           <div class="alert info">There are no matching posts to display</div>

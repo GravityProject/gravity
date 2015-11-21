@@ -1,4 +1,7 @@
 UI.registerHelper('simpleFormat', (text) => {
+  if (!text) {
+    return;
+  }
   var carriage_returns, linkify, newline, paragraphs;
   linkify = (string) => {
     var re;
