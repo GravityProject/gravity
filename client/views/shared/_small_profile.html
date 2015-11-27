@@ -4,6 +4,7 @@
       {{> avatar user=this.user size='small' shape='circle' class='u-pull-left'}}
     </a>
     <a href="{{pathFor 'profile' _id=this.user._id}}" class="u-pull-left">@{{this.user.username}}</a>
+     <span class="fa fa-user {{#if this.user.status.online}}label-success{{else}}label-default{{/if}} "></span>
     <div class="u-pull-right">
       {{> followButton user=this.user}}
     </div>
