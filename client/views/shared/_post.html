@@ -9,6 +9,7 @@
             {{> avatar user=author size='extra-small' shape='circle' class='u-pull-left avatar'}}
           </a>
           <a href="{{pathFor 'profile' _id=author._id}}" class="u-pull-left author">@{{author.username}}</a>
+          <span class="fa fa-user {{#if author.status.online}}label-success{{else}}label-default{{/if}} "></span>
           {{#if belongsPostToUser}}
             <button class="u-pull-right no-button remove-post" data-id="remove-post"><i class="fa fa-trash"></i></button>
           {{/if}}
