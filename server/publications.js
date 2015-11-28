@@ -4,6 +4,10 @@ Meteor.publish(null, function () {
   }
 });
 
+Meteor.publish("userStatus", function() {
+  return Meteor.users.find({"status.online": true });
+});
+
 Meteor.publishComposite('posts.all', function (query, filter, limit) {
   check(query, String);
   check(filter, String);
