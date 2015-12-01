@@ -1,9 +1,8 @@
 <template name="feed">
   <div class="row">
     <div class="twelve columns">
-      <form data-id="insert-post-form" class="insert-post-form">
-        <textarea class="u-full-width insert-post-form" rows="1" placeholder="Write something..." data-id="body"></textarea>
-        <input type="submit" class="button-primary u-pull-right" value="Submit">
+      <form class="search-posts-form" data-id="search-posts-form">
+        <input type="text" class="u-full-width" placeholder="Search posts..." data-id="search-query">
       </form>
     </div>
   </div>
@@ -21,8 +20,9 @@
   <hr>
   <div class="row">
     <div class="twelve columns">
-      <form data-id="search-posts-form">
-        <input type="text" class="u-full-width" placeholder="Search posts..." data-id="search-query">
+      <form data-id="insert-post-form">
+        <textarea class="u-full-width insert-post-form" rows="1" placeholder="Write something..." data-id="body"></textarea>
+        <input type="submit" class="button-primary u-pull-right" value="Submit">
       </form>
     </div>
   </div>
