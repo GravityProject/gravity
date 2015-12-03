@@ -23,7 +23,10 @@ UI.registerHelper('simpleFormat', (text) => {
         return '<a href="mailto:' + mail + '">' + mail + '</a>';
       }
       if (username) {
-        return '<span class="highlight-username">@' + username + '</span>';
+        if (Meteor.user().username === username) {
+          return '<span class="highlight-username">@' + username + '</span>';
+        }
+        return '@' + username;
       }
       return match;
     });
