@@ -23,9 +23,5 @@ Template.post.helpers({
 
   belongsPostToUser: function () {
     return this.authorId === Meteor.userId();
-  },
-  
-  pathForPost: function() {
-    return FlowRouter.path("postEdit", {postId: this._id});
   }
 });

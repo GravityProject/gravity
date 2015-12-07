@@ -47,6 +47,9 @@ Meteor.methods({
     if (!_id) {
       throw new Meteor.Error(422, '_id should not be blank');
     }
+    if (!body) {
+      throw new Meteor.Error(422, 'Body should not be blank');
+    }
     if (Meteor.userId() !== Posts.findOne({ _id: _id }).authorId) {
       throw new Meteor.Error(422, 'You can only remove your own posts');
     }
