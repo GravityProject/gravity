@@ -1,0 +1,20 @@
+<template name="postEdit">
+  {{#if authInProcess}}
+    <p>loading ...</p>
+  {{else}} 
+    {{#if canShow}}
+      <div class="row">
+        <div class="twelve columns">
+          <div class="profile">
+            <form data-id="edit-post-form">
+              <textarea class="u-full-width biography" data-id="post-body">{{postBody}}</textarea>
+              <input type="submit" class="button-primary u-pull-right" value="Edit Post">
+            </form>
+          </div>
+        </div>
+      </div>
+    {{else}}
+      <p>You are not authorized to view this page.</p>
+    {{/if}} 
+  {{/if}}
+</template>
