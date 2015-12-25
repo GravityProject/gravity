@@ -10,6 +10,8 @@ Template.feed.events({
         template.find('[data-id=body]').value = '';
       }
     });
+      
+    $('[data-id=body]').css('height', '39px');
   },
 
   'click [data-id=all]': (event, template) => {
