@@ -8,10 +8,9 @@ Template.feed.events({
       } else {
         Bert.alert('Post successfully submitted', 'success', 'growl-top-right');
         template.find('[data-id=body]').value = '';
+        $('[data-id=body]').css('height', '39px');
       }
     });
-      
-    $('[data-id=body]').css('height', '39px');
   },
 
   'click [data-id=all]': (event, template) => {
