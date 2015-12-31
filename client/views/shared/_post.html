@@ -12,6 +12,7 @@
           <span class="fa {{#if author.status.online}} fa-circle presence online {{else}} fa-circle-o presence offline {{/if}} "></span>
           {{#if belongsPostToUser}}
             <button class="u-pull-right no-button remove-post" data-id="remove-post"><i class="fa fa-trash"></i></button>
+            <button class="u-pull-right no-button edit-post" data-id="edit-post"><i class="fa fa-pencil-square-o"></i></button>
           {{/if}}
           <p class="u-pull-right formatted-date">{{fullTimeDate createdAt}}</p>
           <div class="clear"></div>

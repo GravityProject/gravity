@@ -140,3 +140,10 @@ Meteor.publish('users.follower', function () {
     return [];
   }
 });
+
+Meteor.publish('singlePost', function(id) {
+  if(this.userId){
+    check(id, String);
+    return Posts.find({_id: id});
+  }
+});

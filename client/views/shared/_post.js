@@ -9,6 +9,10 @@ Template.post.events({
         }
       });
     }
+  },
+  
+  'click [data-id=edit-post]': function (event, template) {
+    FlowRouter.go("postEdit", {postId: this._id});
   }
 });
 
