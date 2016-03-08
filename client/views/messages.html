@@ -1,0 +1,85 @@
+<!-- Main template for the Messages page -->
+<template name="messages">
+  <div id="messagesButtons">
+    <button id="allMessagesButton">Messages</button>
+    <button id="composeButton">Compose</button>
+  </div>
+  <!-- Use session variables to determine which template to display -->
+  {{#if showAllMessages}}
+    {{> allMessages}}
+  {{else}}
+    {{#if showSingleMessage}}
+      {{> singleMessage}}
+    {{else}}
+      {{> compose}}
+    {{/if}}
+  {{/if}}
+</template>
+
+<!-- Template to display all messages for current user -->
+<template name="allMessages">
+  <div id="allMessagesArea">
+    {{#if messagesEmpty}}
+      <h1 class="emptyMessage">None</h1>
+    {{else}}
+      <table>
+        <tbody>
+          {{#each getAllMessages}}
+            <tr id="{{_id}}" class="msg {{getMostRecentRead conversation}}">
+              <td class="smallCol">{{getOtherUsername originatingFromName originatingToName}}</td>
+              <td class="largeCol">{{getMostRecentBody conversation}}</td>
+              <td class="smallCol">{{formatDate conversation}}</td> 
+              <td><button class="u-pull-right no-button remove-message" data-id="remove-message"><i class="fa fa-trash"></i></button></td>
+            </tr>
+          {{/each}} 
+        </tbody>
+      </table>
+    {{/if}}  
+  </div>
+</template>
+
+<!-- Template to display a single message that the user clicked on -->
+<template name="singleMessage">
+  <div id="singleMessageContainer">
+    {{#with getSingleMessage}}
+      <div id="singleMessageHeaderArea">
+        <var><b>{{getOtherUsername originatingFromName originatingToName}}</b></var>
+        <hr>
+      </div>
+      <div id="singleMessageArea">
+        {{#each conversation}}
+          {{#if showMessage originatingFromDeleted originatingToDeleted}}
+            {{#if fromOtherUser from to}}
+              <var class="individualMessage left">
+                <p>{{body}} </p> 
+                <span class="individualMessageDate left">{{formatDate sentOn}}</span>
+              </var>
+            {{else}}
+              <var class="individualMessage right">
+                <p>{{body}} </p> 
+                <span class="individualMessageDate right">{{formatDate sentOn}}</span>
+              </var>
+            {{/if}}
+          {{/if}}
+        {{/each}}  
+      </div>
+    {{/with}}
+    <div id="singleMessageReplyArea">
+      <form data-id="reply-message-form">
+        <textarea class="u-full-width message-body-form" rows="1" placeholder="Write something..." data-id="reply-body"></textarea>
+        <input type="submit" class="button-primary u-pull-right" data-id="reply-submit" value="Send">
+      </form>
+    </div>
+  </div>
+</template>
+
+<!-- Template to compose a new message  -->
+<template name="compose">
+  <div class="send-message">
+    <form data-id="send-message-form">
+      <textarea id="blah" class="u-full-width insert-post-form" rows="1" placeholder="To" data-id="message-to"></textarea>
+      <textarea class="u-full-width message-body-form" rows="1" placeholder="Write something..." data-id="message-body"></textarea>
+      <input type="submit" class="button-primary u-pull-right" data-id="message-submit" value="Send">
+    </form>
+  </div> 
+</template>

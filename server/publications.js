@@ -140,3 +140,13 @@ Meteor.publish('users.follower', function () {
     return [];
   }
 });
+
+Meteor.publish('messages.all', function() {
+  if(this.userId) {
+    let currentUser = Meteor.users.findOne({_id: this.userId});
+      
+    return Messages.find({ $or: [{ 'originatingFromId': currentUser._id }, {'originatingToId': currentUser._id }] });
+  } else {
+    return [];
+  }
+});

@@ -1,0 +1,143 @@
+#allMessagesArea,
+#singleMessageContainer {
+  border: 1px solid #D1D1D1;
+  border-radius: 4px;
+  box-shadow: none;
+  min-width: 200px;
+  min-height: 100px;
+  height: 450px;
+  max-height: 450px;
+}
+
+#allMessagesArea {
+  overflow: scroll;
+  tr {
+    td:first-child {
+      padding-left: 10px;      
+    }
+    td:nth-child(4) {
+      padding-right: 10px;      
+    }
+  }
+}
+
+#singleMessageContainer {
+  overflow: hidden;
+}
+
+.emptyMessage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  opacity: 0.8;
+}
+
+#messagesButtons {
+  display: flex;
+  justify-content: space-between;
+}
+
+#singleMessageHeaderArea {
+  height: 8%;
+  var:first-child {
+    margin-left: 20px;  
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+  hr {
+    margin-top: 0px;
+    margin-bottom: 15px;      
+  }
+}
+
+#singleMessageArea {
+  overflow: scroll;
+  height: 59%;
+  
+}
+
+.smallCol {
+  width: 20%;
+  max-width: 120px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.largeCol {
+  width: 50%;
+  max-width: 275px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.individualMessage {
+  p {
+    border-radius: 10%;
+    font-style: normal;
+    font-size: 14px;
+    padding: 4px;   
+    margin-bottom: 0px;
+    display: block;
+    position: relative;
+    clear: both;
+    margin: 0px 20px;
+  }
+  &.left { 
+    p {
+      border: 1px solid #cfcfcf;
+      float: left;
+    }
+  }
+  &.right {
+    p {
+      background-color: #cfcfcf;      
+      float: right;
+    }
+  }
+}
+
+.individualMessageDate {
+  font-size: 12px;
+  display: block;
+  position: relative;
+  clear: both;
+  margin: 0px 25px 10px 25px;
+  &.left {
+    float: left;  
+  }
+  &.right {
+    float: right;  
+  }
+}
+
+#allMessagesButton.active,
+#composeButton.active {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+#allMessagesArea table {
+  width: 100%;
+}
+
+td {
+  padding: 0px;
+}
+
+.notRead {
+  font-weight: bold;
+}
+
+#singleMessageReplyArea {
+  [data-id="reply-body"] {
+    min-height: 100px;
+    height: 100px;   
+    margin-bottom: 0px;
+  }
+  [data-id="reply-submit"] {
+    margin-bottom: 0px;
+  }
+}
