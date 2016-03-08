@@ -164,8 +164,17 @@ Template.allMessages.events({
   'click .remove-message': (event, template) => {
     event.stopPropagation();
     
-    //Confirmation pop up
-    if (confirm('Are you sure that you want to delete this message? This can not be undone!')) {
+    //Sweet Alert delete confirmation
+    swal({
+      title: 'Delete message?',
+      text: 'Are you sure that you want to delete this message?',
+      type: 'error',
+      showCancelButton: true,
+      closeOnConfirm: true,
+      cancelButtonText: 'No',
+      confirmButtonText: 'Yes, delete it!',
+      confirmButtonColor: '#da5347'
+    }, function() {
       //Get the id of the message to be deleted 
       let msgId = event.currentTarget.parentNode.parentNode.id;
       
@@ -193,7 +202,7 @@ Template.allMessages.events({
       } else {
         Bert.alert('Message couldn\'t be deleted.', 'danger', 'growl-top-right');
       }   
-    }
+    });
   }
 });
 

@@ -45,6 +45,7 @@ jparker:gravatar@0.3.1
 jquery@1.11.4
 kadira:blaze-layout@2.2.0
 kadira:flow-router@2.8.0
+kevohagan:sweetalert@1.0.0
 launch-screen@1.0.4
 less@2.5.1
 livedata@1.0.15
