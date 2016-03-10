@@ -148,7 +148,7 @@ Template.allMessages.events({
         //Check if most recent message is TO the current user
         if(!selectedMsg.conversation[selectedMsg.conversation.length - 1].to.read) {
           //Update read field to true
-          Meteor.call('messages.updateRead', selectedMsg._id, selectedMsg.conversation.length - 1, true, (error, result) => {
+          Meteor.call('messages.updateRead', selectedMsg._id, true, (error, result) => {
             //Do nothing 
           });
         }
