@@ -80,9 +80,8 @@ Meteor.methods({
       
     Messages.update({_id: messageId}, {$set: {'conversation': conversation}});
   },
-  'messages.updateRead': (messageId, conversationIndex, val) => {
+  'messages.updateRead': (messageId, val) => {
     check(messageId, String);
-    check(conversationIndex, Number);
     check(val, Boolean);
       
     //Verify that user is logged in
@@ -97,8 +96,15 @@ Meteor.methods({
     
     //Get conversation array and store in variable
     let conversation = Messages.findOne({_id: messageId}).conversation;
-    //Modify read propery of variable
-    conversation[conversationIndex].to.read = val;
+      
+    for(let x = 0; x < conversation.length; x++) {
+      if(conversation[x].to.userId === Meteor.userId()) {
+        conversation[x].to.read = val;
+      }
+    }
+    
+    console.log(conversation);
+    
     //Updat eentire conversation array in Messages 
     Messages.update({_id: messageId}, {$set: {'conversation': conversation}});
   },
