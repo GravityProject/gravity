@@ -103,8 +103,6 @@ Meteor.methods({
       }
     }
     
-    console.log(conversation);
-    
     //Updat eentire conversation array in Messages 
     Messages.update({_id: messageId}, {$set: {'conversation': conversation}});
   },
@@ -112,8 +110,6 @@ Meteor.methods({
     check(messageId, String);
     check(toUserId, String);
     check(body, String);
-      
-    console.log(toUserId);
     
     //Verify that user is logged in
     if(!Meteor.user()) {

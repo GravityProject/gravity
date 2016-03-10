@@ -150,10 +150,6 @@ Template.allMessages.events({
           //Update read field to true
           Meteor.call('messages.updateRead', selectedMsg._id, true, (error, result) => {
             //Do nothing 
-            if(error) {
-              console.log(error);
-            }
-            else { console.log(result);}
           });
         }
         
