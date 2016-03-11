@@ -21,7 +21,7 @@
   <div class="row">
     <div class="twelve columns">
       <form data-id="insert-post-form">
-        <textarea class="u-full-width insert-post-form" rows="1" placeholder="Write something..." data-id="body"></textarea>
+        {{>textareaAutocomplete settings=settings data-id="body" class="u-full-width insert-post-form" rows="1" placeholder="Write something..." }}
         <input type="submit" class="button-primary u-pull-right" value="Submit">
       </form>
     </div>
