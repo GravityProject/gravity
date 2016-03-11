@@ -286,6 +286,25 @@ Template.compose.onRendered(function() {
   $('[data-id=message-to]').focus();  
 });
 
+/* compose template helpers */
+Template.compose.helpers({
+  //Settings for autocomplete To field 
+  settings: () => {
+    return {
+      position: 'bottom',
+      limit: 5,
+      rules: [
+        {
+          collection: Meteor.users,
+          field: 'username',
+          template: Template.userList,
+          filter: { _id: { $ne: Meteor.userId() }}
+        }
+      ]
+    };
+  }
+});
+
 /* compose template events */
 Template.compose.events({
   'submit [data-id=send-message-form]': (event, template) => {

@@ -77,9 +77,14 @@
 <template name="compose">
   <div class="send-message">
     <form data-id="send-message-form">
-      <textarea id="blah" class="u-full-width insert-post-form" rows="1" placeholder="To" data-id="message-to"></textarea>
+      {{> inputAutocomplete settings=settings data-id="message-to" class="u-full-width insert-post-form" placeholder="To" }}
       <textarea class="u-full-width message-body-form" rows="1" placeholder="Write something..." data-id="message-body"></textarea>
       <input type="submit" class="button-primary u-pull-right" data-id="message-submit" value="Send">
     </form>
   </div> 
+</template>
+
+<!-- Template to display list of matching users in To field on compose -->
+<template name="userList">
+    <span class="label">{{username}}</span>
 </template>
