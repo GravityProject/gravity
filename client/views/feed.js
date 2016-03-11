@@ -64,10 +64,30 @@ Template.feed.onCreated(function () {
 
   this.autorun(() => {
     this.subscribe('posts.all', this.searchQuery.get(), this.filter.get(), this.limit.get());
+    this.subscribe('users.all', this.searchQuery.get(), this.limit.get());
     this.postsCount.set(Counts.get('posts.all'));
   });
 });
 
 Template.feed.onRendered(() => {
   autosize($('[data-id=body]'));
+});
+
+Template.feed.helpers({
+  //Settings for autocomplete in post field
+  settings: () => {
+    return {
+      position: 'bottom',
+      limit: 5,
+      rules: [
+        {
+          token: '@',
+          collection: Meteor.users,
+          field: 'username',
+          template: Template.userList,
+          filter: { _id: { $ne: Meteor.userId() }}
+        }
+      ]
+    };
+  }
 });
