@@ -271,10 +271,9 @@ Template.singleMessage.events({
             Bert.alert('Message sent', 'success', 'growl-top-right');
             template.find('[data-id=reply-body]').value = '';
               
-            //Switch the to allMessages view 
-            $('button').removeClass('active');
-            $('#allMessagesButton').addClass('active');
-            Session.set('currentView', 'allMessages');
+            //Scroll to bottom of message area and set focus back to reply text area 
+            $('#singleMessageArea').scrollTop($('#singleMessageArea')[0].scrollHeight);
+            $('[data-id=reply-body]').focus();  
           }
         }); 
       }
