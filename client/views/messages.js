@@ -70,6 +70,7 @@ Template.messages.onCreated(function () {
     Session.set('currentView', 'allMessages');
     Session.set('selectedMsg', '');
     Session.set('originating', '');
+    Session.set('composeButtonDisabled', true);
     $('#allMessagesButton').addClass('active');
   });
 });
