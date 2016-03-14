@@ -140,6 +140,13 @@ td {
   [data-id="reply-submit"] {
     margin-bottom: 0px;
   }
+  [data-id="reply-submit"].disabled,
+  [data-id="reply-submit"].disabled:hover {
+    opacity: 0.3;   
+    cursor: default;
+    background-color: #33C3F0;
+    border-color: #33C3F0;
+  }
 }
 
 .sweet-alert {
@@ -148,6 +155,15 @@ td {
   }
 }
 
-[data-id="send-message-form"] .-autocomplete-container {
-  margin-top: 15px;
+[data-id="send-message-form"] {
+  .-autocomplete-container {
+    margin-top: 15px;
+  }
+  [data-id="message-submit"].disabled,
+  [data-id="message-submit"].disabled:hover {
+    opacity: 0.3;   
+    cursor: default;
+    background-color: #33C3F0;
+    border-color: #33C3F0;
+  }
 }

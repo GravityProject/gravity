@@ -213,6 +213,9 @@ Template.singleMessage.onRendered(function() {
   
   //Set focus to the reply body text area 
   $('[data-id=reply-body]').focus();  
+    
+  //Set submit button to disabled since text field is empty 
+  $('[data-id=reply-submit]').addClass('disabled');
 });
 
 /* singleMessage template helpers */
@@ -242,9 +245,19 @@ Template.singleMessage.helpers({
 
 /* singleMessage template events */
 Template.singleMessage.events({
-    'submit [data-id=reply-message-form]': (event, template) => {
-      event.preventDefault();
+  'keyup [data-id=reply-body]': (event, template) => {
+    //If reply section has text enable the submit button, else disable it
+    if(template.find('[data-id=reply-body]').value.toString().trim() !== '') {
+      $('[data-id=reply-submit]').removeClass('disabled');
+    } else {
+      $('[data-id=reply-submit]').addClass('disabled');
+    }
+  },
+  'submit [data-id=reply-message-form]': (event, template) => {
+    event.preventDefault();
        
+    //Only continue if button isn't disabled
+    if(!$('[data-id=reply-submit]').hasClass('disabled')) {
       let body = template.find('[data-id=reply-body]').value,
           currMessage = Messages.findOne({_id: Session.get('selectedMsg')}),
           toUserId = getOtherUserId(currMessage.originatingFromId, currMessage.originatingToId),
@@ -271,19 +284,24 @@ Template.singleMessage.events({
             Bert.alert('Message sent', 'success', 'growl-top-right');
             template.find('[data-id=reply-body]').value = '';
               
-            //Scroll to bottom of message area and set focus back to reply text area 
+            //Scroll to bottom of message area, set focus back to reply text area, and disable submit button 
             $('#singleMessageArea').scrollTop($('#singleMessageArea')[0].scrollHeight);
             $('[data-id=reply-body]').focus();  
+            $('[data-id=reply-submit]').addClass('disabled');
           }
         }); 
       }
-    } 
+    }
+  } 
 });
 
 /* compose template on rendered */
 Template.compose.onRendered(function() {
   //Set focus to the to text area 
-  $('[data-id=message-to]').focus();  
+  $('[data-id=message-to]').focus(); 
+    
+  //Set submit button to disabled since text fields are empty 
+  $('[data-id=message-submit]').addClass('disabled');
 });
 
 /* compose template helpers */
@@ -307,80 +325,92 @@ Template.compose.helpers({
 
 /* compose template events */
 Template.compose.events({
+  'keyup [data-id=message-to], keyup [data-id=message-body]': (event, template) => {
+    //If to and body sections have text enable the submit button, else disable it
+    if(template.find('[data-id=message-to]').value.toString().trim() !== '' && 
+    template.find('[data-id=message-body]').value.toString().trim() !== '') {
+      $('[data-id=message-submit]').removeClass('disabled');
+    } else {
+      $('[data-id=message-submit]').addClass('disabled');
+    }
+  },
+    
   'submit [data-id=send-message-form]': (event, template) => {
     event.preventDefault(); 
+    
+    //Only continue if button isn't disabled
+    if(!$('[data-id=message-submit]').hasClass('disabled')) {
+      //Get text from To and Body fields
+      let to = template.find('[data-id=message-to]').value.toString().trim(),
+          body = template.find('[data-id=message-body]').value,
+          fieldEmpty = false;
       
-    //Get text from To and Body fields
-    let to = template.find('[data-id=message-to]').value.toString().trim(),
-        body = template.find('[data-id=message-body]').value,
-        fieldEmpty = false;
-      
-    //Verify that both fields contain text
-    if(!to) {
+      //Verify that both fields contain text
+      if(!to) {
         fieldEmpty = true; 
         Bert.alert('Please enter a username in the To field.', 'danger', 'growl-top-right'); 
-    }
-    if(!fieldEmpty && !body.toString().trim()) {
+      }
+      if(!fieldEmpty && !body.toString().trim()) {
         fieldEmpty = true; 
         Bert.alert('Please enter a message.', 'danger', 'growl-top-right'); 
-    }
+      }
     
-    //Continue if the fields aren't empty 
-    if(!fieldEmpty) {
-      //Try to find user in Users collection
-      let toUser = Meteor.users.findOne({username: to});
+      //Continue if the fields aren't empty 
+      if(!fieldEmpty) {
+        //Try to find user in Users collection
+        let toUser = Meteor.users.findOne({username: to});
     
-      //If user was found then it is a valid user 
-      if(toUser) {
-        //If user is not the current user then send the message 
-        if(toUser._id != Meteor.userId())
-        {
-          //If message between these two users already exists, add this message to the current conversation, else create a new message 
-          let existingMessage = Messages.findOne({$or: [{'originatingFromId': Meteor.userId()}, {'originatingToId': Meteor.userId()}], $or: [{'originatingFromId': toUser._id}, {'originatingToId': toUser._id}]});
+        //If user was found then it is a valid user 
+        if(toUser) {
+          //If user is not the current user then send the message 
+          if(toUser._id != Meteor.userId())
+          {
+            //If message between these two users already exists, add this message to the current conversation, else create a new message 
+            let existingMessage = Messages.findOne({$or: [{'originatingFromId': Meteor.userId()}, {'originatingToId': Meteor.userId()}], $or: [{'originatingFromId': toUser._id}, {'originatingToId': toUser._id}]});
             
-          if(existingMessage) {
-            //Add message to existing conversation 
-            Meteor.call('messages.addMessage', existingMessage._id, toUser._id, body, (error, result) => {
-              if(error) {
-                Bert.alert(error.reason, 'danger', 'growl-top-right');
-              } else {
-                //Display success message and reset form values 
-                Bert.alert('Message sent', 'success', 'growl-top-right');
-                template.find('[data-id=message-to]').value = '';
-                template.find('[data-id=message-body]').value = '';
+            if(existingMessage) {
+              //Add message to existing conversation 
+              Meteor.call('messages.addMessage', existingMessage._id, toUser._id, body, (error, result) => {
+                if(error) {
+                  Bert.alert(error.reason, 'danger', 'growl-top-right');
+                } else {
+                  //Display success message and reset form values 
+                  Bert.alert('Message sent', 'success', 'growl-top-right');
+                  template.find('[data-id=message-to]').value = '';
+                  template.find('[data-id=message-body]').value = '';
               
-                //Switch the to allMessages view 
-                $('button').removeClass('active');
-                $('#allMessagesButton').addClass('active');
-                Session.set('currentView', 'allMessages');
-              }
-            });
-          } else {
-            //Create new message 
-            Meteor.call('messages.insert', toUser._id, toUser.username, body, (error, result) => {
-              if(error) {                
-                Bert.alert(error.reason, 'danger', 'growl-top-right');
-              } else {
-                //Display success message and reset form values 
-                Bert.alert('Message sent', 'success', 'growl-top-right');
+                  //Switch the to allMessages view 
+                  $('button').removeClass('active');
+                  $('#allMessagesButton').addClass('active');
+                  Session.set('currentView', 'allMessages');
+                }
+              });
+            } else {
+              //Create new message 
+              Meteor.call('messages.insert', toUser._id, toUser.username, body, (error, result) => {
+                if(error) {                
+                  Bert.alert(error.reason, 'danger', 'growl-top-right');
+                } else {
+                  //Display success message and reset form values 
+                  Bert.alert('Message sent', 'success', 'growl-top-right');
                 
-              
-                //Switch the to allMessages view 
-                $('button').removeClass('active');
-                $('#allMessagesButton').addClass('active');
-                Session.set('currentView', 'allMessages');
-              }
-            });
+                  //Switch the to allMessages view 
+                  $('button').removeClass('active');
+                  $('#allMessagesButton').addClass('active');
+                  Session.set('currentView', 'allMessages');
+                }
+              });
+            }
+          } else {
+            //Can't send a message to yourself, display error
+            Bert.alert('Sorry, you can only send messages to other users.', 'danger', 'growl-top-right');
           }
         } else {
-          //Can't send a message to yourself, display error
-          Bert.alert('Sorry, you can only send messages to other users.', 'danger', 'growl-top-right');
-        }
-      } else {
-        //Wasn't a valid user, display error
-        Bert.alert('Sorry, we can\'t find that user.  Please verify the username and try again.', 'danger', 'growl-top-right');
-      } 
-    }
+          //Wasn't a valid user, display error
+          Bert.alert('Sorry, we can\'t find that user.  Please verify the username and try again.', 'danger', 'growl-top-right');
+        }  
+      }
+    }  
   }
 });
 
