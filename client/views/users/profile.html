@@ -5,6 +5,8 @@
         {{#with user}}
           {{> avatar user=user size='extra-large' shape='circle' class='avatar-center'}}
           <h1 class="text-center username">@{{user.username}} <span class="text-center fa {{#if user.status.online}} fa-circle presence online {{else}} fa-circle-o presence offline {{/if}} "></span></h1>
+          <div id="socialMediaAccounts">
+          </div>
           <p class="text-center">{{simpleFormat user.biography}}</p>
           <div class="text-center">
             {{> followButton user=this}}

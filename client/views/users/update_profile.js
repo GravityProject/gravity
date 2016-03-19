@@ -51,7 +51,7 @@ Template.updateProfile.events({
       };
       
       //Get current social media accounts for this user 
-      user.socialMedia = Meteor.users.findOne({_id: Meteor.userId()}).socialMedia;    
+      user.socialMedia = Meteor.users.findOne({_id: Meteor.userId()}).socialMedia || {};    
         
       let bioChanged = false,
           numSmAdded = 0, 
