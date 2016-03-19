@@ -5,11 +5,38 @@
 
   h1.username {
     margin-top: 20px;
+    margin-bottom: 5px;
     font-size: 3.0rem;
+  }
+
+  #socialMediaAccounts {
+    display: flex;
+    justify-content: space-around;
+    .smAccount {
+      img {
+        width: 75px;
+        height: 75px;
+        margin-top: -15px;      
+      }
+    }
+  }
+    
+  textarea.socialMedia {
+    min-height: 40px;
+    height: 40px;
+    margin-bottom: 10px;
   }
 
   textarea.biography {
     height: 200px;
+  }
+    
+  input[type="submit"].disabled,
+  input[type="submit"].disabled:hover {
+    opacity: 0.3;   
+    cursor: default;
+    background-color: #33C3F0;
+    border-color: #33C3F0;      
   }
 }
 
