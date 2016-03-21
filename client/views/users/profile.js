@@ -25,5 +25,17 @@ Template.profile.onCreated(function () {
   this.autorun(() => {
     this.subscribe('users.profile', FlowRouter.getParam('_id'), this.limit.get());
     this.userPostsCount.set(Counts.get('users.profile'));
+      
+    //Get current user's social media accounts 
+    let profileUser = Meteor.users.findOne({_id: FlowRouter.getParam('_id')});
+    
+    //Display social media links 
+    if(profileUser && profileUser.socialMedia) {
+      $('#socialMediaAccounts').empty();
+      for(var prop in profileUser.socialMedia) {
+        let smLink = '<a id="' + prop + '" class="smAccount" href="' + profileUser.socialMedia[prop] + '"><img src="/img/' + prop + '.svg"/></a>';
+        $(smLink).appendTo('#socialMediaAccounts');
+      }
+    }  
   });
 });

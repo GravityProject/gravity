@@ -4,7 +4,11 @@
       <div class="profile">
         {{> avatar user=currentUser size='extra-large' shape='circle' class='avatar-center'}}
         <h1 class="text-center username">@{{currentUser.username}}</h1>
+        <div id="socialMediaAccounts">
+        </div>
         <form data-id="update-profile-form">
+          <!-- <a href="#">Add Social Media Accounts</a> -->
+          <textarea class="u-full-width socialMedia" rows="1" placeholder="Add Social Media Accounts (separated by a comma)" data-id="addSocialMedia"></textarea>
           <textarea class="u-full-width biography" placeholder="Write something about you..." data-id="biography">{{currentUser.biography}}</textarea>
           <input type="submit" class="button-primary u-pull-right" value="Update profile">
         </form>
