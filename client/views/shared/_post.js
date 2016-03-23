@@ -38,7 +38,6 @@ Template.post.helpers({
       
     let diff = currDate.diff(msgDate, 'days');
 
-    console.log("Days diff: " + diff);
     if(diff === 0 && currDate.day() === msgDate.day()) {
       let hourDiff = currDate.diff(msgDate, 'hours'),
           minDiff = currDate.diff(msgDate, 'minutes');
