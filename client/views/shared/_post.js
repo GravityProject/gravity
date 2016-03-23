@@ -38,6 +38,7 @@ Template.post.helpers({
       
     let diff = currDate.diff(msgDate, 'days');
 
+    console.log("Days diff: " + diff);
     if(diff === 0 && currDate.day() === msgDate.day()) {
       let hourDiff = currDate.diff(msgDate, 'hours'),
           minDiff = currDate.diff(msgDate, 'minutes');
@@ -56,7 +57,7 @@ Template.post.helpers({
       } else {
         return 'Just now';
       }   
-    } else if(diff === 1 && currDate.day() !== msgDate.day()) {
+    } else if(diff <= 1 && currDate.day() !== msgDate.day()) {
       return ('Yesterday at ' + moment(date).format('h:mm a'));
     } else {
       if(currDate.year() != msgDate.year()) {
