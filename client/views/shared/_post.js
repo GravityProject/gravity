@@ -31,5 +31,40 @@ Template.post.helpers({
 
   belongsPostToUser: function () {
     return this.authorId === Meteor.userId();
+  },
+  formatDate: function(date) {
+    let currDate = moment(new Date()),
+        msgDate = moment(new Date(date));
+      
+    let diff = currDate.diff(msgDate, 'days');
+
+    if(diff === 0 && currDate.day() === msgDate.day()) {
+      let hourDiff = currDate.diff(msgDate, 'hours'),
+          minDiff = currDate.diff(msgDate, 'minutes');
+      if(hourDiff > 0) {
+        if(hourDiff === 1) {
+          return (hourDiff + ' hr'); 
+        } else {
+          return (hourDiff + ' hrs');  
+        }
+      } else if(minDiff > 0) {
+        if(minDiff === 1) {
+          return (minDiff + ' min');
+        } else {
+          return (minDiff + ' mins');
+        }
+      } else {
+        return 'Just now';
+      }   
+    } else if(diff === 1 && currDate.day() !== msgDate.day()) {
+      return ('Yesterday at ' + moment(date).format('h:mm a'));
+    } else {
+      if(currDate.year() != msgDate.year()) {
+        return moment(date).format('MMMM DD, YYYY');
+      } else {
+        return (moment(date).format('MMMM DD') + ' at ' + moment(date).format('h:mm a'));  
+      }
+    }  
   }
 });
+
