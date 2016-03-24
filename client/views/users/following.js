@@ -8,7 +8,7 @@ Template.following.helpers({
   }
 });
 
-Template.following.onCreated(function () {
+Template.following.onCreated(function() {
   this.autorun(() => {
     this.subscribe('users.following');
   });

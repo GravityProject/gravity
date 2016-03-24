@@ -1,5 +1,5 @@
 Template.followButton.events({
-  'click [data-id=follow]': function (event, template) {
+  'click [data-id=follow]': function(event, template) {
     Meteor.call('users.follow', this.user._id, (error, result) => {
       if (error) {
         Bert.alert(error.reason, 'danger', 'growl-top-right');
@@ -9,7 +9,7 @@ Template.followButton.events({
     });
   },
 
-  'click [data-id=unfollow]': function (event, template) {
+  'click [data-id=unfollow]': function(event, template) {
     Meteor.call('users.unfollow', this.user._id, (error, result) => {
       if (error) {
         Bert.alert(error.reason, 'danger', 'growl-top-right');
@@ -21,11 +21,11 @@ Template.followButton.events({
 });
 
 Template.followButton.helpers({
-  isThisUserNotCurrentUser: function () {
+  isThisUserNotCurrentUser: function() {
     return this.user._id !== Meteor.userId();
   },
 
-  isCurrentUserFollowingThisUser: function () {
+  isCurrentUserFollowingThisUser: function() {
     return Meteor.user().followingIds && Meteor.user().followingIds.indexOf(this.user._id) > -1;
   }
 });
