@@ -30,3 +30,6 @@ Here are some important examples you should keep an eye on:
 - Remove dead code
 - Useful variable names (e.g. `let user;` instead of `let u;`)
 - Shared partials should have an underscore in front of them and be placed in a folder called `shared` (e.g. `profiles/shared/_button.html`)
+-2 space indents (setq js-indent-level 2)
+- Spaces, not literal tabs (setq-default indent-tabs-mode nil)
+- No trailing whitespace (setq-default show-trailing-whitespace t)
