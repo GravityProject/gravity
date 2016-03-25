@@ -24,7 +24,7 @@ Template.browseUsers.helpers({
   }
 });
 
-Template.browseUsers.onCreated(function () {
+Template.browseUsers.onCreated(function() {
   this.searchQuery = new ReactiveVar('');
   this.limit = new ReactiveVar(20);
   this.usersCount = new ReactiveVar(0);

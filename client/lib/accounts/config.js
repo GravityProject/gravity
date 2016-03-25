@@ -1,8 +1,8 @@
 AccountsTemplates.configure({
   defaultLayout: 'layout',
   defaultLayoutRegions: {
-    header: 'header'//,
-    //footer: '_footer'
+    header: 'header'// ,
+    // footer: '_footer'
   },
   defaultContentRegion: 'main',
   showForgotPasswordLink: true,
@@ -11,13 +11,13 @@ AccountsTemplates.configure({
   sendVerificationEmail: true,
   lowercaseUsername: false,
 
-  //enforceEmailVerification: true,
+  // enforceEmailVerification: true,
   confirmPassword: true,
   continuousValidation: true,
-  //displayFormLabels: true,
-  //forbidClientAccountCreation: false,
+  // displayFormLabels: true,
+  // forbidClientAccountCreation: false,
   homeRoutePath: '/',
-  //showAddRemoveServices: false,
+  // showAddRemoveServices: false,
   showPlaceholders: true,
 
   negativeValidation: true,
@@ -25,8 +25,8 @@ AccountsTemplates.configure({
   negativeFeedback: false,
   positiveFeedback: false,
 
-  //privacyUrl: 'privacy',
-  //termsUrl: 'terms',
+  // privacyUrl: 'privacy',
+  // termsUrl: 'terms',
 
   texts: {
     title: {
@@ -84,4 +84,4 @@ AccountsTemplates.configureRoute('resetPwd');
 AccountsTemplates.configureRoute('signIn');
 AccountsTemplates.configureRoute('signUp');
 AccountsTemplates.configureRoute('verifyEmail');
-//AccountsTemplates.configureRoute('enrollAccount'); // for creating passwords after logging first time
+// AccountsTemplates.configureRoute('enrollAccount'); // for creating passwords after logging first time

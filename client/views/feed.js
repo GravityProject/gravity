@@ -1,4 +1,4 @@
-Template.feed.onCreated(function () {
+Template.feed.onCreated(function() {
   this.searchQuery = new ReactiveVar('');
   this.filter = new ReactiveVar('all');
   this.limit = new ReactiveVar(20);
@@ -13,8 +13,8 @@ Template.feed.onCreated(function () {
 
 Template.feed.onRendered(() => {
   autosize($('[data-id=body]'));
-    
-  //Set submit button to disabled since text field is empty 
+
+  // Set submit button to disabled since text field is empty
   $('input[type=submit]').addClass('disabled');
 });
 
@@ -36,39 +36,37 @@ Template.feed.helpers({
   hasMorePosts: () => {
     return Template.instance().limit.get() <= Template.instance().postsCount.get();
   },
-  //Settings for autocomplete in post field
+  // Settings for autocomplete in post field
   settings: () => {
     return {
       position: 'bottom',
       limit: 5,
-      rules: [
-        {
-          token: '@',
-          collection: Meteor.users,
-          field: 'username',
-          template: Template.userList,
-          filter: { _id: { $ne: Meteor.userId() }}
-        }
-      ]
+      rules: [{
+        token: '@',
+        collection: Meteor.users,
+        field: 'username',
+        template: Template.userList,
+        filter: { _id: { $ne: Meteor.userId() }}
+      }]
     };
   }
 });
 
 Template.feed.events({
   'keyup [data-id=body]': (event, template) => {
-    //If body section has text enable the submit button, else disable it
-    if(template.find('[data-id=body]').value.toString().trim() !== '') {
+    // If body section has text enable the submit button, else disable it
+    if (template.find('[data-id=body]').value.toString().trim() !== '') {
       $('input[type=submit]').removeClass('disabled');
     } else {
       $('input[type=submit]').addClass('disabled');
     }
   },
-      
+
   'submit [data-id=insert-post-form]': (event, template) => {
     event.preventDefault();
 
-    //Only continue if button isn't disabled
-    if(!$('input[type=submit]').hasClass('disabled')) {
+    // Only continue if button isn't disabled
+    if (!$('input[type=submit]').hasClass('disabled')) {
       Meteor.call('posts.insert', template.find('[data-id=body]').value, (error, result) => {
         if (error) {
           Bert.alert(error.reason, 'danger', 'growl-top-right');
@@ -79,7 +77,7 @@ Template.feed.events({
           $('input[type=submit]').addClass('disabled');
         }
       });
-    } 
+    }
   },
 
   'click [data-id=all]': (event, template) => {
