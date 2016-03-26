@@ -54,14 +54,14 @@
     "generator-star-spacing": 2,     // http://eslint.org/docs/rules/generator-star-spacing
     "no-class-assign": 2,            // http://eslint.org/docs/rules/no-class-assign
     "no-const-assign": 2,            // http://eslint.org/docs/rules/no-const-assign
-    "no-dupe-class-members": 2,      // http://eslint.org/docs/rules/no-dupe-class-members
+    /* “no-dupe-class-members": 2,*/ // http://eslint.org/docs/rules/no-dupe-class-members
     "no-this-before-super": 2,       // http://eslint.org/docs/rules/no-this-before-super
     "no-var": 2,                     // http://eslint.org/docs/rules/no-var
     "object-shorthand": 0,           // http://eslint.org/docs/rules/object-shorthand
-    "prefer-arrow-callback": 1,      // http://eslint.org/docs/rules/prefer-arrow-callback
+    /* “prefer-arrow-callback": 1,*/ // http://eslint.org/docs/rules/prefer-arrow-callback
     "prefer-const": 2,               // http://eslint.org/docs/rules/prefer-const
     "prefer-spread": 2,              // http://eslint.org/docs/rules/prefer-spread
-    "prefer-template": 2,            // http://eslint.org/docs/rules/prefer-template
+    /* “prefer-template": 2,*/       // http://eslint.org/docs/rules/prefer-template
     "require-yield": 2,              // http://eslint.org/docs/rules/require-yield
 
 /**

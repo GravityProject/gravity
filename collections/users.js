@@ -2,7 +2,7 @@ Meteor.methods({
   'users.updateProfile': (user) => {
     check(user, {
       biography: String,
-      socialMedia: Object 
+      socialMedia: Object
     });
 
     if (!Meteor.user()) {
