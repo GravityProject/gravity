@@ -1,7 +1,7 @@
 Posts._ensureIndex({
-  'body': 'text'
+  body: 'text'
 });
 
 Meteor.users._ensureIndex({
-  'username': 'text'
+  username: 'text'
 });

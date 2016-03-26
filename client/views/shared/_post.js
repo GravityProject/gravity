@@ -59,7 +59,7 @@ Template.post.helpers({
     } else if (diff <= 1 && currDate.day() !== msgDate.day()) {
       return ('Yesterday at ' + moment(date).format('h:mm a'));
     } else {
-      if (currDate.year() != msgDate.year()) {
+      if (currDate.year() !== msgDate.year()) {
         return moment(date).format('MMMM DD, YYYY');
       } else {
         return (moment(date).format('MMMM DD') + ' at ' + moment(date).format('h:mm a'));

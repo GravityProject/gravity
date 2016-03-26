@@ -1,14 +1,14 @@
-Meteor.publish(null, function () {
+Meteor.publish(null, function() {
   if (this.userId) {
     return Meteor.users.find({ _id: this.userId }, { fields: { biography: 1, followingIds: 1 } });
   }
 });
 
-Meteor.publish("userStatus", function() {
-  return Meteor.users.find({"status.online": true });
+Meteor.publish('userStatus', function() {
+  return Meteor.users.find({'status.online': true });
 });
 
-Meteor.publishComposite('posts.all', function (query, filter, limit) {
+Meteor.publishComposite('posts.all', function(query, filter, limit) {
   check(query, String);
   check(filter, String);
   check(limit, Number);
@@ -35,11 +35,10 @@ Meteor.publishComposite('posts.all', function (query, filter, limit) {
           parameters.find.$text = { $search: query };
           parameters.options = {
             fields: { score: { $meta: 'textScore' } },
-              sort: { score: { $meta: 'textScore' } },
-              limit: limit
+            sort: { score: { $meta: 'textScore' } },
+            limit: limit
           };
-        }
-        else {
+        } else {
           parameters.options = { sort: { createdAt: -1 }, limit: limit };
         }
         Counts.publish(this, 'posts.all', Posts.find(parameters.find), { noReady: true });
@@ -52,13 +51,13 @@ Meteor.publishComposite('posts.all', function (query, filter, limit) {
           }
         }
       ]
-    }
+    };
   } else {
     return [];
   }
 });
 
-Meteor.publishComposite('users.profile', function (_id, limit) {
+Meteor.publishComposite('users.profile', function(_id, limit) {
   check(_id, String);
   check(limit, Number);
 
@@ -75,13 +74,13 @@ Meteor.publishComposite('users.profile', function (_id, limit) {
           }
         }
       ]
-    }
+    };
   } else {
     return [];
   }
 });
 
-Meteor.publish('users.all', function (query, limit) {
+Meteor.publish('users.all', function(query, limit) {
   check(query, String);
   check(limit, Number);
 
@@ -117,7 +116,7 @@ Meteor.publish('users.all', function (query, limit) {
   }
 });
 
-Meteor.publish('users.following', function () {
+Meteor.publish('users.following', function() {
   if (this.userId) {
     let currentUser = Meteor.users.findOne({ _id: this.userId });
 
@@ -131,7 +130,7 @@ Meteor.publish('users.following', function () {
   }
 });
 
-Meteor.publish('users.follower', function () {
+Meteor.publish('users.follower', function() {
   if (this.userId) {
     let currentUser = Meteor.users.findOne({ _id: this.userId });
 
@@ -142,10 +141,10 @@ Meteor.publish('users.follower', function () {
 });
 
 Meteor.publish('messages.all', function() {
-  if(this.userId) {
+  if (this.userId) {
     let currentUser = Meteor.users.findOne({_id: this.userId});
-      
-    return Messages.find({ $or: [{ 'originatingFromId': currentUser._id }, {'originatingToId': currentUser._id }] });
+
+    return Messages.find({ $or: [{ originatingFromId: currentUser._id }, {originatingToId: currentUser._id }] });
   } else {
     return [];
   }
