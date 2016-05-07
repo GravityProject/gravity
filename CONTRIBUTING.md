@@ -8,7 +8,7 @@ Issues can be anything such as bugs, features, enhancements, discussions...
 Before opening a new issue please search through all the existing ones so that we don't introduce duplicates.
 
 ## Pull Requests
-Each pull request should close / fix an issue so that the community can discuss the functionality 
+Each pull request should close / fix an issue so that the community can discuss the functionality
 before a line of code is written.
 
 We need to define some standards in order to keep code quality high.
