@@ -14,7 +14,7 @@ function getOtherUserId(fromId, toId) {
     return toId;
   } else {
     return fromId;
-  }  
+  }
 }
 
 /* Function to get the username of the other user (not current user) */
@@ -26,14 +26,14 @@ function getOtherUsername(fromName, toName) {
   } else {
     Session.set('originating', 'to');
     return fromName;
-  } 
+  }
 }
 
 /* Function to format the passed in date */
 function performFormatting(date) {
   let currDate = moment(new Date()),
       msgDate = moment(new Date(date));
-      
+
   let diff = currDate.diff(msgDate, 'days');
 
   if(diff === 0 && currDate.day() === msgDate.day()) {
@@ -44,7 +44,7 @@ function performFormatting(date) {
     if(currDate.year() != msgDate.year()) {
       return moment(date).format('MM/DD/YY');
     } else {
-      return moment(date).format('MMM DD');   
+      return moment(date).format('MMM DD');
     }
   }
 }
@@ -59,14 +59,14 @@ Template.messages.onCreated(function () {
   this.searchQuery = new ReactiveVar('');
   this.limit = new ReactiveVar(20);
   this.usersCount = new ReactiveVar(0);
-    
+
   this.autorun(() => {
-    //Set subscriptions 
+    //Set subscriptions
     this.subscribe('users.all', this.searchQuery.get(), this.limit.get());
     this.usersCount.set(Counts.get('users.all'));
     this.subscribe('messages.all');
-      
-    //Set session variables 
+
+    //Set session variables
     Session.set('currentView', 'allMessages');
     Session.set('selectedMsg', '');
     Session.set('originating', '');
@@ -90,7 +90,7 @@ Template.messages.helpers({
 /* messages template events */
 Template.messages.events({
   'click #allMessagesButton, click #composeButton': (event, template) => {
-    //Set template based on button that was clicked 
+    //Set template based on button that was clicked
     $('button').removeClass('active');
     $('#' + event.target.id).addClass('active');
     Session.set('currentView', event.target.id.toString().replace('Button', ''));
@@ -104,7 +104,7 @@ Template.allMessages.helpers({
     return Messages.find({$or: [{ 'originatingFromId': Meteor.userId(), 'conversation.originatingFromDeleted': false }, {'originatingToId': Meteor.userId(), 'conversation.originatingToDeleted': false}]}, {sort: {'conversation.sentOn': -1} });
   },
   messagesEmpty: () => {
-    //Check if current user has any messages 
+    //Check if current user has any messages
     if(Messages.find({$or: [{ 'originatingFromId': Meteor.userId(), 'conversation.originatingFromDeleted': false }, {'originatingToId': Meteor.userId(), 'conversation.originatingToDeleted': false}]}).count() === 0) {
       return true;
     } else {
@@ -115,7 +115,7 @@ Template.allMessages.helpers({
     if(conversation.length > 0)
     {
       let date = conversation[conversation.length - 1].sentOn;
-        
+
       return performFormatting(date);
     }
   },
@@ -125,7 +125,7 @@ Template.allMessages.helpers({
     }
   },
   getMostRecentRead: (conversation) => {
-    //Determine if message has been read 
+    //Determine if message has been read
     if(conversation.length > 0) {
       if(conversation[conversation.length - 1].to.userId === Meteor.userId()) {
         if(!conversation[conversation.length - 1].to.read) {
@@ -133,7 +133,7 @@ Template.allMessages.helpers({
         }
       }
     }
-    
+
     return '';
   }
 });
@@ -149,21 +149,21 @@ Template.allMessages.events({
         if(!selectedMsg.conversation[selectedMsg.conversation.length - 1].to.read) {
           //Update read field to true
           Meteor.call('messages.updateRead', selectedMsg._id, true, (error, result) => {
-            //Do nothing 
+            //Do nothing
           });
         }
-        
+
       }
     }
-     
-    //Set current view to singleMssage template 
+
+    //Set current view to singleMssage template
     $('button').removeClass('active');
     Session.set('selectedMsg', event.currentTarget.id);
     Session.set('currentView', 'singleMessage');
   },
   'click .remove-message': (event, template) => {
     event.stopPropagation();
-    
+
     //Sweet Alert delete confirmation
     swal({
       title: 'Delete message?',
@@ -175,23 +175,23 @@ Template.allMessages.events({
       confirmButtonText: 'Yes, delete it!',
       confirmButtonColor: '#da5347'
     }, function() {
-      //Get the id of the message to be deleted 
+      //Get the id of the message to be deleted
       let msgId = event.currentTarget.parentNode.parentNode.id;
-      
-      //Make sure message exists 
+
+      //Make sure message exists
       let msg = Messages.findOne({ '_id': msgId } );
       let whoDeleted;
-    
-      //If message exists 
+
+      //If message exists
       if(msg) {
-        //Set deleted correctly 
+        //Set deleted correctly
         if(msg.originatingFromId === Meteor.userId()) {
           whoDeleted = 'from';
         } else {
           whoDeleted = 'to';
         }
-    
-        //Remove selected message 
+
+        //Remove selected message
         Meteor.call('messages.remove', msgId, whoDeleted, (error, result) => {
           if(error) {
             Bert.alert('Message couldn\'t be deleted.', 'danger', 'growl-top-right');
@@ -201,20 +201,20 @@ Template.allMessages.events({
         });
       } else {
         Bert.alert('Message couldn\'t be deleted.', 'danger', 'growl-top-right');
-      }   
+      }
     });
   }
 });
 
 /* singleMessage template on rendered */
 Template.singleMessage.onRendered(function() {
-  //Move to bottom of div so most recent message is shown 
+  //Move to bottom of div so most recent message is shown
   $('#singleMessageArea').scrollTop($('#singleMessageArea')[0].scrollHeight);
-  
-  //Set focus to the reply body text area 
-  $('[data-id=reply-body]').focus();  
-    
-  //Set submit button to disabled since text field is empty 
+
+  //Set focus to the reply body text area
+  $('[data-id=reply-body]').focus();
+
+  //Set submit button to disabled since text field is empty
   $('[data-id=reply-submit]').addClass('disabled');
 });
 
@@ -224,7 +224,7 @@ Template.singleMessage.helpers({
     return Messages.findOne({ '_id': Session.get('selectedMsg') } );
   },
   showMessage: (originatingFromDeleted, originatingToDeleted) => {
-    //Don't show messages that have been previously deleted 
+    //Don't show messages that have been previously deleted
     if(Session.equals('originating', 'from')) {
       return !originatingFromDeleted;
     } else {
@@ -235,7 +235,7 @@ Template.singleMessage.helpers({
     if(from.userId !== Meteor.userId()) {
       return true;
     } else {
-      return false; 
+      return false;
     }
   },
   formatDate: (date) => {
@@ -255,14 +255,14 @@ Template.singleMessage.events({
   },
   'submit [data-id=reply-message-form]': (event, template) => {
     event.preventDefault();
-       
+
     //Only continue if button isn't disabled
     if(!$('[data-id=reply-submit]').hasClass('disabled')) {
       let body = template.find('[data-id=reply-body]').value,
           currMessage = Messages.findOne({_id: Session.get('selectedMsg')}),
           toUserId = getOtherUserId(currMessage.originatingFromId, currMessage.originatingToId),
           fieldEmpty = false;
-        
+
       //Make sure fields arent empty
       if(!body.toString().trim()) {
         fieldEmpty = true;
@@ -272,41 +272,41 @@ Template.singleMessage.events({
         fieldEmpty = true;
         Bert.alert('Error sending message.', 'danger', 'growl-top-right');
       }
-       
-      //Continue if the fields aren't empty 
+
+      //Continue if the fields aren't empty
       if(!fieldEmpty) {
-        //Add reply to the conversation array of the existing message 
+        //Add reply to the conversation array of the existing message
         Meteor.call('messages.addMessage', Session.get('selectedMsg'), toUserId, body, (error, result) => {
           if(error) {
             Bert.alert(error.reason, 'danger', 'growl-top-right');
           } else {
-            //Display success message and reset form values 
+            //Display success message and reset form values
             Bert.alert('Message sent', 'success', 'growl-top-right');
             template.find('[data-id=reply-body]').value = '';
-              
-            //Scroll to bottom of message area, set focus back to reply text area, and disable submit button 
+
+            //Scroll to bottom of message area, set focus back to reply text area, and disable submit button
             $('#singleMessageArea').scrollTop($('#singleMessageArea')[0].scrollHeight);
-            $('[data-id=reply-body]').focus();  
+            $('[data-id=reply-body]').focus();
             $('[data-id=reply-submit]').addClass('disabled');
           }
-        }); 
+        });
       }
     }
-  } 
+  }
 });
 
 /* compose template on rendered */
 Template.compose.onRendered(function() {
-  //Set focus to the to text area 
-  $('[data-id=message-to]').focus(); 
-    
-  //Set submit button to disabled since text fields are empty 
+  //Set focus to the to text area
+  $('[data-id=message-to]').focus();
+
+  //Set submit button to disabled since text fields are empty
   $('[data-id=message-submit]').addClass('disabled');
 });
 
 /* compose template helpers */
 Template.compose.helpers({
-  //Settings for autocomplete To field 
+  //Settings for autocomplete To field
   settings: () => {
     return {
       position: 'bottom',
@@ -327,74 +327,74 @@ Template.compose.helpers({
 Template.compose.events({
   'keyup [data-id=message-to], keyup [data-id=message-body]': (event, template) => {
     //If to and body sections have text enable the submit button, else disable it
-    if(template.find('[data-id=message-to]').value.toString().trim() !== '' && 
+    if(template.find('[data-id=message-to]').value.toString().trim() !== '' &&
     template.find('[data-id=message-body]').value.toString().trim() !== '') {
       $('[data-id=message-submit]').removeClass('disabled');
     } else {
       $('[data-id=message-submit]').addClass('disabled');
     }
   },
-    
+
   'submit [data-id=send-message-form]': (event, template) => {
-    event.preventDefault(); 
-    
+    event.preventDefault();
+
     //Only continue if button isn't disabled
     if(!$('[data-id=message-submit]').hasClass('disabled')) {
       //Get text from To and Body fields
       let to = template.find('[data-id=message-to]').value.toString().trim(),
           body = template.find('[data-id=message-body]').value,
           fieldEmpty = false;
-      
+
       //Verify that both fields contain text
       if(!to) {
-        fieldEmpty = true; 
-        Bert.alert('Please enter a username in the To field.', 'danger', 'growl-top-right'); 
+        fieldEmpty = true;
+        Bert.alert('Please enter a username in the To field.', 'danger', 'growl-top-right');
       }
       if(!fieldEmpty && !body.toString().trim()) {
-        fieldEmpty = true; 
-        Bert.alert('Please enter a message.', 'danger', 'growl-top-right'); 
+        fieldEmpty = true;
+        Bert.alert('Please enter a message.', 'danger', 'growl-top-right');
       }
-    
-      //Continue if the fields aren't empty 
+
+      //Continue if the fields aren't empty
       if(!fieldEmpty) {
         //Try to find user in Users collection
         let toUser = Meteor.users.findOne({username: to});
-    
-        //If user was found then it is a valid user 
+
+        //If user was found then it is a valid user
         if(toUser) {
-          //If user is not the current user then send the message 
+          //If user is not the current user then send the message
           if(toUser._id != Meteor.userId())
           {
-            //If message between these two users already exists, add this message to the current conversation, else create a new message 
+            //If message between these two users already exists, add this message to the current conversation, else create a new message
             let existingMessage = Messages.findOne({$or: [{'originatingFromId': Meteor.userId()}, {'originatingToId': Meteor.userId()}], $or: [{'originatingFromId': toUser._id}, {'originatingToId': toUser._id}]});
-            
+
             if(existingMessage) {
-              //Add message to existing conversation 
+              //Add message to existing conversation
               Meteor.call('messages.addMessage', existingMessage._id, toUser._id, body, (error, result) => {
                 if(error) {
                   Bert.alert(error.reason, 'danger', 'growl-top-right');
                 } else {
-                  //Display success message and reset form values 
+                  //Display success message and reset form values
                   Bert.alert('Message sent', 'success', 'growl-top-right');
                   template.find('[data-id=message-to]').value = '';
                   template.find('[data-id=message-body]').value = '';
-              
-                  //Switch the to allMessages view 
+
+                  //Switch the to allMessages view
                   $('button').removeClass('active');
                   $('#allMessagesButton').addClass('active');
                   Session.set('currentView', 'allMessages');
                 }
               });
             } else {
-              //Create new message 
+              //Create new message
               Meteor.call('messages.insert', toUser._id, toUser.username, body, (error, result) => {
-                if(error) {                
+                if(error) {
                   Bert.alert(error.reason, 'danger', 'growl-top-right');
                 } else {
-                  //Display success message and reset form values 
+                  //Display success message and reset form values
                   Bert.alert('Message sent', 'success', 'growl-top-right');
-                
-                  //Switch the to allMessages view 
+
+                  //Switch the to allMessages view
                   $('button').removeClass('active');
                   $('#allMessagesButton').addClass('active');
                   Session.set('currentView', 'allMessages');
@@ -408,9 +408,9 @@ Template.compose.events({
         } else {
           //Wasn't a valid user, display error
           Bert.alert('Sorry, we can\'t find that user.  Please verify the username and try again.', 'danger', 'growl-top-right');
-        }  
+        }
       }
-    }  
+    }
   }
 });
 
