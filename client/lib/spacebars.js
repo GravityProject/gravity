@@ -32,6 +32,8 @@ UI.registerHelper('simpleFormat', (text) => {
     });
   };
   text = linkify(text);
+  //filter the emoticons symbol and replace with emo icons images
+  text = Blaze._globalHelpers.parseEmoticons(text);
   carriage_returns = /\r\n?/g;
   paragraphs = /\n\n+/g;
   newline = /([^\n]\n)(?=[^\n])/g;
