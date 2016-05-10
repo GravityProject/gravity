@@ -11,7 +11,10 @@
           </li>
           <li class="{{activeIfRouteNameIs 'messages'}}">
             <a href="{{pathFor 'messages'}}"><i class="fa fa-envelope"></i> Messages {{getUnreadCount}}</a>
-          </li>    
+          </li> 
+          <li class="{{activeIfRouteNameIs 'jobBoard'}}">
+            <a href="{{pathFor 'jobBoard'}}"><i class="fa fa-briefcase"></i> Job board</a>
+          </li>
         </ul>
         <hr>
         <ul>
