@@ -60,6 +60,11 @@ Template.feed.events({
     } else {
       $('input[type=submit]').addClass('disabled');
     }
+
+    // When shift and enter are pressed, submit form
+    if (event.shiftKey && event.keyCode === 13) {
+      $('[data-id=insert-post-form]').submit();
+    }
   },
 
   'submit [data-id=insert-post-form]': (event, template) => {

@@ -252,6 +252,11 @@ Template.singleMessage.events({
     } else {
       $('[data-id=reply-submit]').addClass('disabled');
     }
+
+    // When shift and enter are pressed, submit form
+    if (event.shiftKey && event.keyCode === 13) {
+      $('[data-id=reply-message-form]').submit();
+    }
   },
   'submit [data-id=reply-message-form]': (event, template) => {
     event.preventDefault();
@@ -326,15 +331,20 @@ Template.compose.helpers({
 /* compose template events */
 Template.compose.events({
   'keyup [data-id=message-to], keyup [data-id=message-body]': (event, template) => {
-    //If to and body sections have text enable the submit button, else disable it
-    if(template.find('[data-id=message-to]').value.toString().trim() !== '' &&
+    // If to and body sections have text enable the submit button, else disable it
+    if (template.find('[data-id=message-to]').value.toString().trim() !== '' &&
     template.find('[data-id=message-body]').value.toString().trim() !== '') {
       $('[data-id=message-submit]').removeClass('disabled');
     } else {
       $('[data-id=message-submit]').addClass('disabled');
     }
   },
-
+  'keyup [data-id=message-body]': (event, template) => {
+    // When shift and enter are pressed, submit form
+    if (event.shiftKey && event.keyCode === 13) {
+      $('[data-id=send-message-form]').submit();
+    }
+  },
   'submit [data-id=send-message-form]': (event, template) => {
     event.preventDefault();
 
