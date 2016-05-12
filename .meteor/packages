@@ -19,7 +19,6 @@ ecmascript              # Enable ECMAScript2015+ syntax in app code
 check
 audit-argument-checks
 skeleton:skeleton
-less
 accounts-base
 accounts-password
 useraccounts:unstyled
@@ -41,3 +40,4 @@ kevohagan:sweetalert
 mizzao:autocomplete
 markdown
 simple:highlight.js
+less

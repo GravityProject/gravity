@@ -1,3 +1,12 @@
+Template.post.onCreated(function() {
+  this.searchQuery = new ReactiveVar('');
+  this.filter = new ReactiveVar('all');
+  this.limit = new ReactiveVar(20);
+  this.autorun(() => {
+    this.subscribe('posts.all', this.searchQuery.get(), this.filter.get(), this.limit.get());
+  });
+});
+
 Template.post.events({
   'click [data-id=remove-post]': function(event, template) {
     let self = this;
@@ -21,6 +30,15 @@ Template.post.events({
         }
       });
     });
+  },
+    'click [data-id=like-post]': function(event, template) {
+      let self = this;
+
+      Meteor.call('posts.like', self._id, (error, result) => {
+        if (error) {
+          Bert.alert(error.reason, 'danger', 'growl-top-right');
+        }
+      });
   }
 });
 
@@ -28,7 +46,6 @@ Template.post.helpers({
   author: function() {
     return Meteor.users.findOne({ _id: this.authorId });
   },
-
   belongsPostToUser: function() {
     return this.authorId === Meteor.userId();
   },
@@ -65,5 +82,11 @@ Template.post.helpers({
         return (moment(date).format('MMMM DD') + ' at ' + moment(date).format('h:mm a'));
       }
     }
+  },
+  isLiked: function() {
+    if(Posts.find( { _id: this._id , already_voted: { "$in" : [Meteor.userId()]} }).count() === 1) {
+      return 'liked';
+    }
+    return '';
   }
 });
