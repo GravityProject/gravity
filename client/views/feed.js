@@ -72,7 +72,31 @@ Template.feed.events({
 
     // Only continue if button isn't disabled
     if (!$('input[type=submit]').hasClass('disabled')) {
-      Meteor.call('posts.insert', template.find('[data-id=body]').value, (error, result) => {
+      let body = template.find('[data-id=body]').value;
+
+      // If a user is mentioned in the post add span with class to highlight their username
+      if(body.indexOf('@') !== -1) {
+        for(let x = 0; x < body.length; x++) {
+          if(body[x] === '@') {
+            let u = body.slice(x + 1, body.indexOf(' ', x));
+            let mentionedUser = Meteor.users.findOne({username: u});
+
+            // If a valid user
+            if(mentionedUser) {
+              console.log(mentionedUser._id);
+              // Add opening and closing span tags
+              body = body.slice(0, x) + '<a href="/users/' + mentionedUser._id + '">' + body.slice(x, body.indexOf(' ', x)) + '</a>' +
+                     body.slice(body.indexOf(' ', x));
+
+              // Increment by number of characters in openeing span tag
+              // so the same mention doesn't get evaluated multiple times
+              x+= 16;
+            }
+          }
+        }
+      }
+
+      Meteor.call('posts.insert', body, (error, result) => {
         if (error) {
           Bert.alert(error.reason, 'danger', 'growl-top-right');
         } else {
