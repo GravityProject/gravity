@@ -83,7 +83,6 @@ Template.feed.events({
 
             // If a valid user
             if(mentionedUser) {
-              console.log(mentionedUser._id);
               // Add opening and closing span tags
               body = body.slice(0, x) + '<a href="/users/' + mentionedUser._id + '">' + body.slice(x, body.indexOf(' ', x)) + '</a>' +
                      body.slice(body.indexOf(' ', x));
