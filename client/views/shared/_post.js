@@ -31,14 +31,14 @@ Template.post.events({
       });
     });
   },
-    'click [data-id=like-post]': function(event, template) {
-      let self = this;
+  'click [data-id=like-post]': function(event, template) {
+    let self = this;
 
-      Meteor.call('posts.like', self._id, (error, result) => {
-        if (error) {
-          Bert.alert(error.reason, 'danger', 'growl-top-right');
-        }
-      });
+    Meteor.call('posts.like', self._id, (error, result) => {
+      if (error) {
+        Bert.alert(error.reason, 'danger', 'growl-top-right');
+      }
+    });
   }
 });
 
@@ -84,7 +84,7 @@ Template.post.helpers({
     }
   },
   isLiked: function() {
-    if(Posts.find( { _id: this._id , already_voted: { "$in" : [Meteor.userId()]} }).count() === 1) {
+    if (Posts.find( { _id: this._id, already_voted: { $in: [Meteor.userId()]} }).count() === 1) {
       return 'liked';
     }
     return '';
