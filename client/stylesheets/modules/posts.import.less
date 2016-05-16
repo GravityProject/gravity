@@ -5,7 +5,7 @@
   word-wrap: break-word;
   hr {
     margin-top: 15px;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
   }
   p.formatted-date, a.author {
     color: #D5D5D5;
@@ -20,6 +20,31 @@
     background: #FFEDCA;
   }
   margin-bottom: 20px;
+  .post-line-two {
+    display: flex; 
+	flex-direction: row; 
+	justify-content: space-between;  
+    .post-line-two-left,
+    .post-line-two-right {
+      display: flex; 
+	  align-items: center;   
+    }
+    .fa-thumbs-o-up {
+      margin-right: 2px;
+      &.liked {
+        color: #1EAEDB;
+      }   
+    }
+    .remove-post {
+      margin-left: 0px;
+      margin-right: 10px; 
+    }
+    [data-id="remove-post"],
+    [data-id="like-post"] {
+      font-size: 14px; 
+    }
+  }
+   
 }
 
 form.search-posts-form {
@@ -27,10 +52,6 @@ form.search-posts-form {
   input {
     margin-bottom: 0;
   }
-}
-
-button.remove-post {
-  margin-top: -8px;
 }
 
 ul.feed-filter {
@@ -73,8 +94,4 @@ textarea {
     background-color: #33C3F0;
     border-color: #33C3F0;
   }
-}
-
-.fa-thumbs-o-up.liked {
-  color: blue;
 }

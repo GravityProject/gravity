@@ -3,21 +3,30 @@
     <div class="twelve columns">
       {{#with post}}
         <div class="post">
-        {{#markdown}}{{body}}{{/markdown}}
+          {{#markdown}}{{body}}{{/markdown}}
           <hr>
-          <a href="{{pathFor 'profile' _id=author._id}}">
-            {{> avatar user=author size='extra-small' shape='circle' class='u-pull-left avatar'}}
-          </a>
-          <a href="{{pathFor 'profile' _id=author._id}}" class="u-pull-left author">@{{author.username}}</a>
-          <span class="fa {{#if author.status.online}} fa-circle presence online {{else}} fa-circle-o presence offline {{/if}} "></span>
-          {{#if belongsPostToUser}}
-            <button class="u-pull-right no-button remove-post" data-id="remove-post"><i class="fa fa-trash"></i></button>
-
-          {{/if}}
-          <p class="u-pull-right formatted-date">{{formatDate createdAt}}</p>
-
-          <button class="no-button " data-id="like-post"><i class="fa fa-thumbs-o-up {{#if isLiked}}liked{{/if}}" aria-hidden="false"></i>{{likecount}}</button>
-          <div class="clear"></div>
+          <div class="post-line-two">
+            <div class="post-line-two-left">
+              <a href="{{pathFor 'profile' _id=author._id}}">
+                {{> avatar user=author size='extra-small' shape='circle' class='u-pull-left avatar'}}
+              </a>
+              <a href="{{pathFor 'profile' _id=author._id}}" class="u-pull-left author">@{{author.username}}</a>
+              <span class="fa {{#if author.status.online}} fa-circle presence online {{else}} fa-circle-o presence offline {{/if}} ">
+              </span>
+              <button class="no-button" data-id="like-post">
+                <i class="fa fa-thumbs-o-up {{#if isLiked}}liked{{/if}}" aria-hidden="false"></i>{{likecount}}
+              </button>
+              <div class="clear"></div>
+            </div> 
+            <div class="post-line-two-right">
+              {{#if belongsPostToUser}}
+                <button class="u-pull-right no-button remove-post" data-id="remove-post">
+                  <i class="fa fa-trash"></i>
+                </button>
+              {{/if}}
+              <p class="u-pull-right formatted-date">{{formatDate createdAt}}</p>
+            </div>  
+          </div>   
         </div>
       {{/with}}
     </div>
