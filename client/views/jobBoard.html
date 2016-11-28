@@ -79,6 +79,17 @@
     <textarea class="u-full-width addJob-multi-line" rows="1" placeholder="Description" data-id="addJob-description"></textarea>
     <textarea class="u-full-width addJob-multi-line" rows="1" placeholder="Responsibilities" data-id="addJob-responsibilities"></textarea>
     <textarea class="u-full-width addJob-multi-line" rows="1" placeholder="Qualifications" data-id="addJob-qualifications"></textarea> 
+    
+    <div class="u-full-width">
+      Interested candidates should:&nbsp;
+      <select class="addJob-single-line" data-id="addJob-interestedBehavior">
+        <option value="directMessage">Send direct message</option>  
+        <option value="goToLink">Proceed to external link</option>
+      </select>
+    </div>
+    {{#if showExternalLink}}
+      <textarea class="u-full-width addJob-single-line" rows="1" placeholder="External Link" data-id="addJob-externalLink"></textarea>
+    {{/if}}
     <input type="submit" class="button-primary u-pull-right" data-id="addJob-submit" value="Post">
   </form> 
 </template>

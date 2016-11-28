@@ -12,10 +12,14 @@ Template.jobBoard.onCreated(function() {
   this.searchQuery = new ReactiveVar('');
   this.limit = new ReactiveVar(10);
   this.jobsCount = new ReactiveVar(0);
+  this.usersCount = new ReactiveVar(0);
 
   this.autorun(() => {
     this.subscribe('jobs.all', this.searchQuery.get(), this.limit.get());
     this.jobsCount.set(Counts.get('jobs.all'));
+
+    this.subscribe('users.all', this.searchQuery.get(), this.limit.get());
+    this.usersCount.set(Counts.get('users.all'));
 
     // Show allJobs view
     Session.set('currentView', 'allJobs');
@@ -148,24 +152,36 @@ Template.singleJob.events({
   },
   'click #applyNowButton': (event, template) => {
     // Get job details
-    let currJob = Jobs.findOne({ _id: Session.get('selectedJob') } ),
-        authorName = Meteor.users.findOne({_id: currJob.author}).username,
-        msg = "Hi, I'm interested in the job you posted titled \"" + currJob.title + ".\"";
+    let currJob = Jobs.findOne({ _id: Session.get('selectedJob') } );
 
-    // Send message to job poster
-    if (currJob.author && authorName) {
-      Meteor.call('messages.insert', currJob.author, authorName, msg, (error, result) => {
-        if (error) {
-          Bert.alert(error.reason, 'danger', 'growl-top-right');
-        } else {
-          // Display success message and reset form values
-          Bert.alert('Message sent to the job poster.', 'success', 'growl-top-right');
+    if (currJob.externalLink && currJob.externalLink !== '') {
+      // Proceed to external link
+      let link = currJob.externalLink;
 
-          Session.set('currentView', 'allJobs');
-        }
-      });
+      if (link.toString().indexOf('http://') === -1) {
+        link = 'http://' + link;
+      }
+
+      window.open(link);
     } else {
-      Bert.alert('There was a problem sending the message.', 'danger', 'growl-top-right');
+      // Send message to job poster
+      let authorName = Meteor.users.findOne({_id: currJob.author.toString()}).username,
+          msg = "Hi, I'm interested in the job you posted titled \"" + currJob.title + ".\"";
+
+      if (currJob.author && authorName) {
+        Meteor.call('messages.insert', currJob.author, authorName, msg, (error, result) => {
+          if (error) {
+            Bert.alert(error.reason, 'danger', 'growl-top-right');
+          } else {
+            // Display success message and reset form values
+            Bert.alert('Message sent to the job poster.', 'success', 'growl-top-right');
+
+            Session.set('currentView', 'allJobs');
+          }
+        });
+      } else {
+        Bert.alert('There was a problem sending the message.', 'danger', 'growl-top-right');
+      }
     }
   }
 });
@@ -173,10 +189,19 @@ Template.singleJob.events({
 /* addJob template onRendered */
 Template.addJob.onRendered(function() {
   $('[data-id=addJob-submit]').addClass('disabled');
+  Session.set('showExternalLink', false);
 
   if (isCurrentView('editJob')) {
     let jobToEdit = Jobs.findOne({ _id: Session.get('selectedJob') } );
 
+    if (jobToEdit.externalLink && jobToEdit.externalLink !== '') {
+      Session.set('showExternalLink', true);
+      $('[data-id=addJob-interestedBehavior]').val('goToLink');
+    } else {
+      Session.set('showExternalLink', false);
+      $('[data-id=addJob-interestedBehavior]').val('directMessage');
+    }
+      
     // Fill in fields with existing data
     $('[data-id=addJob-title]').val(jobToEdit.title);
     $('[data-id=addJob-location]').val(jobToEdit.location);
@@ -184,7 +209,8 @@ Template.addJob.onRendered(function() {
     $('[data-id=addJob-responsibilities]').val(jobToEdit.responsibilities);
     $('[data-id=addJob-qualifications]').val(jobToEdit.qualifications);
     $('[data-id=addJob-schedule]').val(jobToEdit.schedule);
-
+    $('[data-id=addJob-externalLink]').val(jobToEdit.externalLink);
+      
     // Keep track of original values
     Session.set('startingTitle', $('[data-id=addJob-title]').val());
     Session.set('startingLocation', $('[data-id=addJob-location]').val());
@@ -192,6 +218,7 @@ Template.addJob.onRendered(function() {
     Session.set('startingResponsibilities', $('[data-id=addJob-responsibilities]').val());
     Session.set('startingQualifications', $('[data-id=addJob-qualifications]').val());
     Session.set('startingSchedule', $('[data-id=addJob-schedule]').val());
+    Session.set('startingLink', $('[data-id=addJob-externalLink]').val());
 
     // Change button text
     $('[data-id=addJob-submit]').prop('value', 'Save');
@@ -201,19 +228,40 @@ Template.addJob.onRendered(function() {
   }
 });
 
+/* addJob template helpers */
+Template.addJob.helpers({
+  showExternalLink: () => {
+    return Session.get('showExternalLink');
+  }
+});
+
 /* addJob template events */
 Template.addJob.events({
+  'change [data-id=addJob-interestedBehavior]': (event, template) => {
+    if (template.find('[data-id=addJob-interestedBehavior] option:selected').value === 'goToLink') {
+      Session.set('showExternalLink', true);
+    } else {
+      Session.set('showExternalLink', false);
+    }
+  },
   'click .allJobsButton': (event, template) => {
     Session.set('currentView', 'allJobs');
   },
-  'keyup [data-id=addJob-title], keyup [data-id=addJob-location], keyup [data-id=addJob-description], keyup [data-id=addJob-responsibilities], keyup [data-id=addJob-qualifications], change [data-id=addJob-schedule]': (event, template) => {
+  'keyup [data-id=addJob-title], keyup [data-id=addJob-location], keyup [data-id=addJob-description], keyup [data-id=addJob-responsibilities], keyup [data-id=addJob-qualifications], change [data-id=addJob-schedule], change [data-id=addJob-interestedBehavior], keyup [data-id=addJob-externalLink]': (event, template) => {
     if (isCurrentView('addJob')) {
-      // If job title, location, and description sections have text enable the submit button, else disable it
-      if (template.find('[data-id=addJob-title]').value.toString().trim() !== '' &&
-      template.find('[data-id=addJob-location]').value.toString().trim() !== '' &&
-      template.find('[data-id=addJob-description]').value.toString().trim() !== '') {
-        $('[data-id=addJob-submit]').removeClass('disabled');
-      } else {
+      try {
+        // If job title, location, and description sections have text enable the submit button, else disable it
+        if (template.find('[data-id=addJob-title]').value.toString().trim() !== '' &&
+        template.find('[data-id=addJob-location]').value.toString().trim() !== '' &&
+        template.find('[data-id=addJob-description]').value.toString().trim() !== '' &&
+        (template.find('[data-id=addJob-interestedBehavior] option:selected').value.toString() === 'directMessage' ||
+        (template.find('[data-id=addJob-interestedBehavior] option:selected').value.toString() === 'goToLink' &&
+        template.find('[data-id=addJob-externalLink]').value.toString().trim() !== ''))) {
+          $('[data-id=addJob-submit]').removeClass('disabled');
+        } else {
+          $('[data-id=addJob-submit]').addClass('disabled');
+        }
+      } catch(err) {
         $('[data-id=addJob-submit]').addClass('disabled');
       }
     } else if (isCurrentView('editJob')) {
@@ -223,7 +271,8 @@ Template.addJob.events({
       template.find('[data-id=addJob-description]').value.toString().trim() !== Session.get('startingDescription') ||
       template.find('[data-id=addJob-responsibilities]').value.toString().trim() !== Session.get('startingResponsibilities') ||
       template.find('[data-id=addJob-qualifications]').value.toString().trim() !== Session.get('startingQualifications') ||
-      template.find('[data-id=addJob-schedule]').value !== Session.get('startingSchedule')) {
+      template.find('[data-id=addJob-schedule]').value !== Session.get('startingSchedule') ||
+      template.find('[data-id=addJob-externalLink]').value !== Session.get('startingLink')) {
         $('[data-id=addJob-submit]').removeClass('disabled');
       } else {
         $('[data-id=addJob-submit]').addClass('disabled');
@@ -241,12 +290,18 @@ Template.addJob.events({
           schedule = template.find('[data-id=addJob-schedule] option:selected').text.trim(),
           description = template.find('[data-id=addJob-description]').value.toString().trim(),
           responsibilities = template.find('[data-id=addJob-responsibilities]').value.toString().trim(),
-          qualifications = template.find('[data-id=addJob-qualifications]').value.toString().trim();
+          qualifications = template.find('[data-id=addJob-qualifications]').value.toString().trim(),
+          externalLink = '';
+
+      if (template.find('[data-id=addJob-interestedBehavior] option:selected').value.toString() === 'goToLink') {
+        externalLink = template.find('[data-id=addJob-externalLink]').value.toString().trim();
+      }
 
       if (isCurrentView('addJob')) {
         // Title, location and description should have text
         if (title && location && description) {
-          Meteor.call('jobs.post', title, location, schedule, description, responsibilities, qualifications, (error, result) => {
+          Meteor.call('jobs.post', title, location, schedule, description, responsibilities,
+          qualifications, externalLink, (error, result) => {
             if (error) {
               Bert.alert(error.reason, 'danger', 'growl-top-right');
             } else {
@@ -263,7 +318,7 @@ Template.addJob.events({
       } else if (isCurrentView('editJob')) {
         // Update existing job
         Meteor.call('jobs.update', Session.get('selectedJob'), title, location, schedule, description,
-        responsibilities, qualifications, (error, result) => {
+        responsibilities, qualifications, externalLink, (error, result) => {
           if (error) {
             Bert.alert(error.reason, 'danger', 'growl-top-right');
           } else {

@@ -1,13 +1,14 @@
 Jobs = new Mongo.Collection('jobs');
 
 Meteor.methods({
-  'jobs.post': (title, location, schedule, description, responsibilities, qualifications) => {
+  'jobs.post': (title, location, schedule, description, responsibilities, qualifications, externalLink) => {
     check(title, String);
     check(location, String);
     check(schedule, String);
     check(description, String);
     check(responsibilities, String);
     check(qualifications, String);
+    check(externalLink, String);
 
     // Verify that user is logged in
     if (!Meteor.user()) {
@@ -33,6 +34,7 @@ Meteor.methods({
       description: description,
       responsibilities: responsibilities,
       qualifications: qualifications,
+      externalLink: externalLink,
       author: Meteor.userId(),
       createdOn: new Date()
     };
@@ -56,7 +58,7 @@ Meteor.methods({
     // Remove job by jobId
     return Jobs.remove({_id: jobId});
   },
-  'jobs.update': (jobId, title, location, schedule, description, responsibilities, qualifications) => {
+  'jobs.update': (jobId, title, location, schedule, description, responsibilities, qualifications, externalLink) => {
     check(jobId, String);
     check(title, String);
     check(location, String);
@@ -64,6 +66,7 @@ Meteor.methods({
     check(description, String);
     check(responsibilities, String);
     check(qualifications, String);
+    check(externalLink, String);
 
     // Verify that user is logged in
     if (!Meteor.user()) {
@@ -78,6 +81,6 @@ Meteor.methods({
     // Update job by jobId
     return Jobs.update({_id: jobId}, {$set: {title: title, location: location, schedule: schedule,
                                       description: description, responsibilities: responsibilities,
-                                      qualifications: qualifications}});
+                                      qualifications: qualifications, externalLink: externalLink}});
   }
 });
