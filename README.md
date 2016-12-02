@@ -1,9 +1,9 @@
 # Gravity
-[Gravity](http://joingravity.com) is an open source social network built with Meteor.
+[Gravity](http://joingravity.herokuapp.com/) is an open source social network built with Meteor.
 
 ![Gravity screenshot](screenshot-1.png)
 
-The most recent version is deployed at [http://joingravity.com](http://joingravity.com). Meet us there!
+The most recent version is deployed at [http://joingravity.herokuapp.com/](http://joingravity.herokuapp.com/). Meet us there!
 
 ## Setup
 1. Clone / fork the repository
